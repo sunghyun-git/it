@@ -28,7 +28,7 @@
 ${Restaurant.phonenum}
 
 </c:if>
-
+	<c:if test="김지현국비"></c:if>
 	<!-- 가게 오픈 타임과 브레이크타임, 라스트오더 -->
 	<c:if test="${open != null}">
 		<c:forEach var="open" items="${open }">
