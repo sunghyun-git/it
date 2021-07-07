@@ -77,52 +77,80 @@ public class CommonController2 {
 //		}
 //		return authentication.isAuthenticated();
 //	}
-	
+
 	@GetMapping("/register")
 	public void getregister() {
-		
+
 	}
-	//@RequestParam(value="") List<Restaurant_menuVO> menuvo
+
+	// @RequestParam(value="") List<Restaurant_menuVO> menuvo
 	@PostMapping("/register")
-	public String postregister(RestaurantVO vo,Restaurant_openHourVO openvo,Restaurant_offVO offvo, RedirectAttributes rttr, HttpServletRequest request ) {
+	public String postregister(RestaurantVO vo, RedirectAttributes rttr, HttpServletRequest request) {
 		log.info("================================");
 		log.info("register: " + vo);
 		service.registerRestaurant(vo);
-		openvo.setCid(vo.getCid());
-		offvo.setCid(vo.getCid());
-		
-		
-		if(openvo.getPeriodName().equals("")) {
-			openvo.setPeriodName("영업기간");
+
+		String[] periodName = request.getParameterValues("periodName");
+		String[] timeName = request.getParameterValues("timeName");
+		String[] timeSE = request.getParameterValues("timeSE");
+		String[] dayOfWeek = request.getParameterValues("dayOfWeek");
+
+		List<Restaurant_openHourVO> openvoList = new ArrayList<>();
+		for (int i = 0; i < timeName.length; i++) {
+			Restaurant_openHourVO openvo = new Restaurant_openHourVO();
+			openvo.setCid(vo.getCid());
+			if (periodName[i] == "") {
+				periodName[i] = "영업기간";
+			}
+			openvo.setPeriodName(periodName[i]);
+			openvo.setTimeName(timeName[i]);
+			openvo.setTimeSE(timeSE[i]);
+			openvo.setDayOfWeek(dayOfWeek[i]);
+			openvoList.add(openvo);
 		}
-		
-		service.registerRestaurantOpen(openvo);
+
+		service.registerRestaurantOpen(openvoList);
+
+		String[] holydayName = request.getParameterValues("holydayName");
+		String[] offdate = request.getParameterValues("offdate");
+
+		List<Restaurant_offVO> offvoList = new ArrayList<>();
+		for (int i = 0; i < holydayName.length; i++) {
+			if (holydayName[i].equals("")) {
+				holydayName[i] = null;
+			}
+			if (offdate[i].equals("")) {
+				offdate[i] = null;
+			}
+			Restaurant_offVO offvo = new Restaurant_offVO();
+			offvo.setHolydayName(holydayName[i]);
+			offvo.setCid(vo.getCid());
+			offvo.setOffdate(offdate[i]);
+			offvoList.add(offvo);
+		}
+		service.registerRestaurantOff(offvoList);
+
 		String[] menu = request.getParameterValues("menu");
 		String[] price = request.getParameterValues("price");
 		List<Restaurant_menuVO> menuvoList = new ArrayList<Restaurant_menuVO>();
-		for(int i=0;i<menu.length;i++) {
-			Restaurant_menuVO menuvo = new Restaurant_menuVO();
-			menuvo.setMenu(menu[i]);
-			menuvo.setPrice(price[i]);
-			menuvo.setCid(vo.getCid());
-			menuvoList.add(menuvo);
+		if (menu != null) {
+			for (int i = 0; i < menu.length; i++) {
+				Restaurant_menuVO menuvo = new Restaurant_menuVO();
+				menuvo.setMenu(menu[i]);
+				menuvo.setPrice(price[i]);
+				menuvo.setCid(vo.getCid());
+				menuvoList.add(menuvo);
+			}
+			service.registerRestaurantMenu(menuvoList);
 		}
-		if(offvo.getHolydayName().equals("")) {
-			offvo.setHolydayName(null);
-		}
-		if(offvo.getOffdate().equals("")) {
-			offvo.setOffdate(null);
-		}
-		service.registerRestaurantOff(offvo);
-		service.registerRestaurantMenu(menuvoList);
-		
-		
+
 		return "redirect:/main";
 	}
-	
+
 	@GetMapping("/modify")
-	public void getmodify(@RequestParam("cid") Integer cid,Model model) {
-		log.info("cid : "+cid);
+	public void getmodify(@RequestParam("cid") Integer cid, Model model) {
+		log.info("cid : " + cid);
+		model.addAttribute("cid",cid);
 		model.addAttribute("Restaurant", service.getRestaurant(cid));
 
 		model.addAttribute("open", service.getRestaurantOpen(cid));
@@ -130,27 +158,92 @@ public class CommonController2 {
 		model.addAttribute("off", service.getRestaurantOff(cid));
 
 		model.addAttribute("menu", service.getRestaurantMenu(cid));
-		
-		log.info("open : "+service.getRestaurantOpen(cid));
+
+		log.info("open : " + service.getRestaurantOpen(cid));
+		log.info("off : " + service.getRestaurantOff(cid));
+		log.info("menu : " + service.getRestaurantMenu(cid));
 
 	}
+
 	@PostMapping("/modify")
-	public String postmodify(RestaurantVO vo,Restaurant_openHourVO openvo,Restaurant_offVO offvo, RedirectAttributes rttr, HttpServletRequest request) {
+	public String postmodify(RestaurantVO vo, HttpServletRequest request) {
+		vo.setCid(Integer.parseInt(request.getParameter("cid")));
+		service.modifyRestaurant(vo);
+		
+		String[] periodName = request.getParameterValues("periodName");
+		String[] timeName = request.getParameterValues("timeName");
+		String[] timeSE = request.getParameterValues("timeSE");
+		String[] dayOfWeek = request.getParameterValues("dayOfWeek");
+
+		List<Restaurant_openHourVO> openvoList = new ArrayList<>();
+		for (int i = 0; i < timeName.length; i++) {
+			Restaurant_openHourVO openvo = new Restaurant_openHourVO();
+			openvo.setCid(vo.getCid());
+			if (periodName[i] == "") {
+				periodName[i] = "영업기간";
+			}
+			openvo.setPeriodName(periodName[i]);
+			openvo.setTimeName(timeName[i]);
+			openvo.setTimeSE(timeSE[i]);
+			openvo.setDayOfWeek(dayOfWeek[i]);
+			openvoList.add(openvo);
+		}
+
+		service.modifyRestaurantOpen(openvoList);
+
+		String[] holydayName = request.getParameterValues("holydayName");
+		String[] offdate = request.getParameterValues("offdate");
+
+		List<Restaurant_offVO> offvoList = new ArrayList<>();
+		for (int i = 0; i < holydayName.length; i++) {
+			if (holydayName[i].equals("")) {
+				holydayName[i] = null;
+			}
+			if (offdate[i].equals("")) {
+				offdate[i] = null;
+			}
+			Restaurant_offVO offvo = new Restaurant_offVO();
+			offvo.setHolydayName(holydayName[i]);
+			offvo.setCid(vo.getCid());
+			offvo.setOffdate(offdate[i]);
+			offvoList.add(offvo);
+		}
+		service.registerRestaurantOff(offvoList);
+
+		String[] menu = request.getParameterValues("menu");
+		String[] price = request.getParameterValues("price");
+		List<Restaurant_menuVO> menuvoList = new ArrayList<Restaurant_menuVO>();
+		if (menu != null) {
+			for (int i = 0; i < menu.length; i++) {
+				Restaurant_menuVO menuvo = new Restaurant_menuVO();
+				menuvo.setMenu(menu[i]);
+				menuvo.setPrice(price[i]);
+				menuvo.setCid(vo.getCid());
+				menuvoList.add(menuvo);
+			}
+			service.registerRestaurantMenu(menuvoList);
+		}
 		
 		return "redirect:/main";
 	}
+
 	@GetMapping("/main")
 	public void asdf(Model model) {
-		Integer[] cid = { 18668029, 697084504, 924229434,2029556524 };
+		Integer[] cid = { 18668029, 697084504, 924229434, 2029556524 };
 		for (int i = 0; i < cid.length; i++) {
 			model.addAttribute("Restaurant" + i, service.getRestaurant(cid[i]));
 		}
 	}
+	@GetMapping("/delete")
+	public String delete(@RequestParam("cid") Integer cid,RedirectAttributes rttr) {
+		service.removeRestaurant(cid);
+		return "redirect:/main";
+	}
 
 	@GetMapping("/jsonParse")
-	public void jsonParse(Model model) {
+	public void jsonParse(Model model, HttpServletRequest request) {
 
-		Integer cid = 2029556524;
+		Integer cid = Integer.parseInt(request.getParameter("cid"));
 		// service.getRestaurant(2030217673);
 		model.addAttribute("Restaurant", service.getRestaurant(cid));
 

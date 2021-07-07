@@ -10,8 +10,8 @@ import org.zerock.domain.Restaurant_reviewVO;
 
 public interface RestaurantService {
 	public void registerRestaurant(RestaurantVO vo);
-	public void registerRestaurantOff(Restaurant_offVO offvo);
-	public void registerRestaurantOpen(Restaurant_openHourVO openvo);
+	public void registerRestaurantOff(List<Restaurant_offVO> offvo);
+	public void registerRestaurantOpen(List<Restaurant_openHourVO> openvo);
 	public void registerRestaurantMenu(List<Restaurant_menuVO> menuvo);
 	
 	
@@ -22,10 +22,10 @@ public interface RestaurantService {
 	public List<Restaurant_reviewVO> getRestaurantReview(Integer cid);
 	
 	public boolean modifyRestaurant(RestaurantVO vo);
-	public boolean modifyRestaurantOpen(Restaurant_openHourVO openvo);
-	public boolean modifyRestaurantOff(Restaurant_offVO offvo);
+	public boolean modifyRestaurantOpen(List<Restaurant_openHourVO> openvo);
+	public boolean modifyRestaurantOff(List<Restaurant_offVO> offvo);
 	public boolean modifyRestaurantMenu(List<Restaurant_menuVO> menuvo);
 	
 	
-	public boolean remove(Integer cid);
+	public boolean removeRestaurant(Integer cid);
 }

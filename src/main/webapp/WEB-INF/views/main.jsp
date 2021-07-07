@@ -62,18 +62,18 @@
                     <article class="img_set">
                         <div class="img">
                         	<c:if test="${Restaurant0.mainphotourl != null}">
-                            <img src="${Restaurant0.mainphotourl }" width="350" height="135"></a>
+                            <a href="/jsonParse?cid=${Restaurant0.cid }"><img src="${Restaurant0.mainphotourl }" width="350" height="135"></a>
                             </c:if> 
                             <c:if test="${Restaurant1.mainphotourl != null}">
-                            <img src="${Restaurant1.mainphotourl }" width="350" height="135"></a>
+                            <a href="/jsonParse?cid=${Restaurant1.cid }"><img src="${Restaurant1.mainphotourl }" width="350" height="135"></a>
                             </c:if>
                             <c:if test="${Restaurant2.mainphotourl != null}">
-                            <img src="${Restaurant2.mainphotourl }" width="350" height="135"></a>
+                            <a href="/jsonParse?cid=${Restaurant2.cid }"><img src="${Restaurant2.mainphotourl }" width="350" height="135"></a>
                             </c:if>
                         </div>
                         <div class="img2">
                         	<c:if test="${Restaurant3.mainphotourl !=null }">
-                            <a href="/jsonParse"><img src="${Restaurant3.mainphotourl}" width="350" height="135"></a>
+                            <a href="/jsonParse?cid=${Restaurant3.cid }"><img src="${Restaurant3.mainphotourl}" width="350" height="135"></a>
                             </c:if>
                             <img src="https://via.placeholder.com/350x135"></a>
                             <img src="https://via.placeholder.com/350x135"></a>

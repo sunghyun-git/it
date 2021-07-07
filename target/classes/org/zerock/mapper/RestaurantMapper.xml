@@ -101,7 +101,7 @@
 	<update id="updateRestaurant">
 		update food_restaurant
 		set address = #{address},
-		cate1name = #{cate1name}, catename = #{catename}, parking =
+		catename = #{catename}, parking =
 		#{parking}, placename = #{placename},
 		phonenum = #{phonenum},
 		mainphotourl = #{mainphotourl}

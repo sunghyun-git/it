@@ -6,13 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>${Restaurant.placename }</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
 <form method="get" action="/modify">
 	<!-- 가게 정보  -->
 	<input type="hidden" value="${Restaurant.cid }" name="cid">
-	<img src="${Restaurant.mainphotourl}">
+	<input type="hidden" value="${Restaurant.address} ${Restaurant.placename }" name="placeaddress" id="placeaddress">
+	<img src="${Restaurant.mainphotourl}" width="700" height="580">
 	<br> ${Restaurant.placename } (${Restaurant.catename })
 	(${Restaurant.views }) ${Restaurant.rating }
 	<br> ${Restaurant.address}
@@ -28,7 +31,50 @@
 ${Restaurant.phonenum}
 
 </c:if>
-	
+	<div id="map" style="width:100%;height:350px;"></div>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddfa64a774c1422fb95b40bd0dc99e12&libraries=services"></script>
+
+<script>
+var placeaddress = document.getElementById('placeaddress').value;
+console.log(placeaddress);
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch(placeaddress, function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">${Restaurant.placename}</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
+</script>
 	<!-- 가게 오픈 타임과 브레이크타임, 라스트오더 -->
 	<c:if test="${open != null}">
 		<c:forEach var="open" items="${open }">
@@ -135,5 +181,6 @@ ${Restaurant.phonenum}
 	</c:if>
 	<button type="submit">수정하기</button>
 	</form>
+	
 </body>
 </html>

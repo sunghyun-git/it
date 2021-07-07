@@ -38,7 +38,7 @@ public interface RestaurantMapper {
 	
 	//delete
 	
-	public void deleteRestaurant(RestaurantVO vo);
+	public void deleteRestaurant(Integer cid);
 	public void deleteRestaurant_open(Restaurant_openHourVO vo);
 	public void deleteRestaurant_off(Restaurant_offVO vo);
 	public void deleteRestaurant_menu(Restaurant_menuVO vo);
