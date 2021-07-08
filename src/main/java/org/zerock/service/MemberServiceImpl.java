@@ -30,8 +30,8 @@ public class MemberServiceImpl implements MemberService {
 	public void join(MemberVO member) {
 		log.info("MemberService:join()");
 		
-		String encPw = pwencoder.encode(member.getUserpw());
-		member.setUserpw(encPw);
+		String encPw = pwencoder.encode(member.getPwd());
+		member.setPwd(encPw);
 		
 		mapper.insert(member);
 		// 디폴트로 ROLE_USER 부여 : 추후 권한 부여에 대한 기능 검토 필요
@@ -51,8 +51,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void update(MemberVO member) {
-		String encPw = pwencoder.encode(member.getUserpw());
-		member.setUserpw(encPw);
+		String encPw = pwencoder.encode(member.getPwd());
+		member.setPwd(encPw);
 		mapper.update(member);
 		
 	}

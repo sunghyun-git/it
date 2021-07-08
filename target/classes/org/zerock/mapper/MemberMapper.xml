@@ -6,7 +6,7 @@
 <resultMap type="org.zerock.domain.MemberVO" id="memberMap">
 	<id property="userid" column="userid"/>
 	<result property="userid" column="userid"/>
-	<result property="userpw" column="userpw"/>
+	<result property="pwd" column="pwd"/>
 	
 	<result property="regDate" column="regdate"/>
 	<result property="updateDate" column="updatedate"/>
@@ -14,7 +14,7 @@
 	<result property="nickname" column="nickname"/>
 	<result property="userbirthday" column="userbirthday"/>
 	<result property="email" column="email"/>
-	<result property="gender" column="gender"/>
+	<result property="agree" column="agree"/>
 	
 	<collection property="authList" resultMap="authMap"></collection>
 </resultMap>
@@ -28,12 +28,12 @@
 	where mem.userid = #{userid}
 </select>
 <insert id="insert">
-	insert into food_member (userid, userpw, username, nickname, userbirthday, email, gender) values(#{userid}, #{userpw}, #{username}, #{nickname}, #{userbirthday}, #{email}, #{gender})
+	insert into food_member (userid, pwd, username, nickname, userbirthday, email, agree) values(#{userid}, #{pwd}, #{username}, #{nickname}, #{userbirthday}, #{email}, #{agree})
 </insert>
 
 <update id="update">
 update food_member 
-set userpw=#{userpw}, nickname=#{nickname}, userbirthday=#{userbirthday}, gender=#{gender}, email=#{email} 
+set pwd=#{pwd}, nickname=#{nickname}, userbirthday=#{userbirthday}, agree=#{agree}, email=#{email} 
 where userid = #{userid}
 </update>
 

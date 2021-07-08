@@ -33,6 +33,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			response.sendRedirect("/security/member");
 			return;
 		}
-		response.sendRedirect("/");
+		response.sendRedirect("/main");
 	}
 }
