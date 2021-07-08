@@ -16,6 +16,8 @@
         <section class="login-form"><br><br><br><br>
             <h1>잇! 슐랭</h1> 
             <!--아이디-->
+            <h3>${error }</h3>
+            <h3>${logout }</h3>
         <form method="post" action="/login">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div class="int-area"> 
@@ -33,7 +35,7 @@
                 </div>
                 <!--로그인 회원가입 버튼-->
                     <input type="submit" value="로그인">  
-                    <input type="submit" value="회원가입"> 
+                    <input type="submit" value="회원가입" > 
                 </form>
             </section> 
             </body> 

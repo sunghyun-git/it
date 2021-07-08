@@ -1,109 +1,174 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
 <link rel="stylesheet" href="/resources/a/modify.css">
+<script src="/resources/js/jquery-3.6.0.min.js"></script>
 </head>
-<body> 
-        <header>
-            <div class="text-area">
-                <h1>나의 정보 수정</h1> 
-            </div>
-        </header>
-        <section class="modify-form">
-        <!--비밀번호-->
-        <div class="int-pass"> 
-        *비밀번호<br>
-            <input id="pw" type="password" name="pw" placeholder="비밀번호" label for="pw"> </label> 
-        </div>
-        <div class="int-pass">  
-            *  비밀번호 재확인<br> 
-            <input type="password" name="user_PW2" placeholder="비밀번호 재확인">
-            </div>
-        <!--닉네임 수정-->
-        <div class="int-username">
-        * 닉네임<br>  <input type="text" name="user_name" value=""></div> <br>
-             <!--생년월일 select를 사용해서 구현-->
-             * 생년월일<br><br>
-             <select name="year">
-               <option value="">-- 선택 --</option>
-               <option value="1994">1994</option>
-               <option value="1995">1995</option>
-               <option value="1996">1996</option>
-               <option value="1997">1997</option>
-               <option value="1998">1998</option>
-               <option value="1999">1999</option>
-               <option value="2000">2000</option>
-             </select>
-             <select name="month">
-               <option value="">-- 선택 --</option>
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-               <option value="5">5</option>
-               <option value="6">6</option>
-               <option value="7">7</option>
-               <option value="8">8</option>
-               <option value="9">9</option>
-               <option value="10">10</option>
-               <option value="11">11</option>
-               <option value="12">12</option>
-             </select>
-             <select name="day">
-               <option value="">-- 선택 --</option>
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-               <option value="5">5</option>
-               <option value="6">6</option>
-               <option value="7">7</option>
-               <option value="8">8</option>
-               <option value="9">9</option>
-               <option value="10">10</option>
-               <option value="11">11</option>
-               <option value="12">12</option>
-               <option value="13">13</option>
-               <option value="14">14</option>
-               <option value="15">15</option>
-               <option value="16">16</option>
-               <option value="17">17</option>
-               <option value="18">18</option>
-               <option value="19">19</option>
-               <option value="20">20</option>
-               <option value="21">21</option>
-               <option value="22">22</option>
-               <option value="23">23</option>
-               <option value="24">24</option>
-               <option value="25">25</option>
-               <option value="26">26</option>
-               <option value="27">27</option>
-               <option value="28">28</option>
-               <option value="29">29</option>
-               <option value="30">30</option>
-               <option value="31">31</option>
-             </select>
-             <br><br>
-           <!--이메일-->
-             * 이메일<div class="fieldlabel"><label for="email01"></label>
-            <div class="formfield"><input type="text" id="email01" name="email01" size="20" maxlength="20" 
-                   value="" autocomplete="off"><span>@</span>
-            <input id="email02" name="email02" list="domains" >
-            <datalist id="domains">
-               <option value="naver.com">
-               <option value="daum.net">
-               <option value="gmail.com">
-               <option value="yahoo.co.kr">
-           </datalist>
-               </div><br>
-        </section>
-       <!--로그인 회원가입 버튼-->
-            <input type="submit" value="정보수정">
-            <input type="submit" value="취소"> 
-        </body>
-    </html>
-                
+<body>
+	<header>
+		<div class="text-area">
+			<h1>나의 정보 수정</h1>
+		</div>
+	</header>
+	<form method="post" action="/member/modify">
+		<section class="modify-form">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<!--비밀번호-->
+			<div class="int-pass">
+				*비밀번호<br> <input id="pwd" type="password" name="pwd" label
+					for="pw"> </label>
+			</div>
+			<div class="int-pass">
+				* 비밀번호 재확인<br> <input type="password" id="pwd2" name="pwd2">
+			</div>
+			<!--닉네임 수정-->
+			<div class="int-username">
+				* 닉네임<br> <input type="text" name="nickname" id ="nickname"
+					value="${member.nickname }">
+			</div>
+			<br>
+			<!--생년월일 select를 사용해서 구현-->
+			<div class="fieldlabel">
+				<div class="formfield">
+					* 생년월일<br>
+					<br> <input id="year" name="year" list="yearlist"
+						value="${year }">
+					<datalist id="yearlist">
+						<option value="1990">
+						<option value="1991">
+						<option value="1992">
+						<option value="1993">
+						<option value="1994">
+						<option value="1995">
+						<option value="1996">
+						<option value="1997">
+						<option value="1998">
+						<option value="1999">
+						<option value="2000">
+					</datalist>
+					<input id="month" name="month" list="monthlist" value="${month }">
+					<datalist id="monthlist">
+
+						<option value="01">
+						<option value="02">
+						<option value="03">
+						<option value="04">
+						<option value="05">
+						<option value="06">
+						<option value="07">
+						<option value="08">
+						<option value="09">
+						<option value="10">
+						<option value="11">
+						<option value="12">
+					</datalist>
+
+					<label for="day"></label> <input id="day" name="day" list="daylist"
+						value="${day}">
+					<datalist id="daylist">
+						<option value="01">
+						<option value="02">
+						<option value="03">
+						<option value="04">
+						<option value="05">
+						<option value="06">
+						<option value="07">
+						<option value="08">
+						<option value="09">
+						<option value="10">
+						<option value="11">
+						<option value="12">
+						<option value="13">
+						<option value="14">
+						<option value="15">
+						<option value="16">
+						<option value="17">
+						<option value="18">
+						<option value="19">
+						<option value="20">
+						<option value="21">
+						<option value="22">
+						<option value="23">
+						<option value="24">
+						<option value="25">
+						<option value="26">
+						<option value="27">
+						<option value="28">
+						<option value="29">
+						<option value="30">
+						<option value="31">
+					</datalist>
+				</div>
+			</div>
+			<br>
+			<br>
+			<!--이메일-->
+			* 이메일
+			<div class="fieldlabel">
+				<label for="email01"></label>
+				<div class="formfield">
+					<input type="text" id="email1" name="email1" size="20"
+						maxlength="20" value="${email1 }" autocomplete="off"><span>@</span>
+					<input id="email2" name="email2" list="domains" value="${email2 }">
+					<datalist id="domains">
+						<option value="naver.com">
+						<option value="daum.net">
+						<option value="gmail.com">
+						<option value="yahoo.co.kr">
+					</datalist>
+					<br>
+
+				</div>
+				<%--      <select id="domains" >
+            	<option value="${email2 }">${email2 }</option>
+               <option value="naver.com">naver.com</option>
+               <option value="daum.net">daum.net</option>
+               <option value="gmail.com">gmail.net</option>
+               <option value="yahoo.co.kr">yahoo.co.kr</option>
+           </select> --%>
+
+			</div>
+			<input name="agree" type="checkbox"> 이벤트, 혜택정보 수신동의(선택) <br>
+		</section>
+		<!--로그인 회원가입 버튼-->
+		<button type="submit">정보수정</button>
+		<input type="button" value="취소 " onClick="history.go(-1)">
+	</form>
+	<script>
+	var pwJ = /^[A-Za-z0-9]{4,12}$/;
+            
+            $(document).ready(function(e){
+            $("button[type='submit']").on("click", function(e){  
+            	if($('#pwd').val()==''){
+            		alert('비밀번호를 입력하세요');
+            		return false;
+            	}	
+            	if($('#pwd').val() != ($('#pwd2').val())){
+            		alert('비밀번호가 다릅니다.');
+            		return false;
+            	}
+            	if($('#nickname').val()==''){
+            		alert('닉네임을 입력하세요');
+            		return false;
+            	}
+            	if(($('#year').val()=='')&&($('#month').val()=='')&&($('#day').val()=='')){
+            		alert('생년월일을 입력하세요');
+            		return false;
+            	}
+            	if(($('#email1').val()=='')&&($('#email2').val()=='')){
+            		alert('이메일을 입력하세요');
+            		return false;
+            	}
+            	return true;
+            });
+            });
+            
+            </script>
+</body>
+</html>

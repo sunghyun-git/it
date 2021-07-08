@@ -119,5 +119,46 @@ public class RestaurantServiceImpl implements RestaurantService {
 		mapper.deleteRestaurant(cid);
 		return true;
 	}
+	@Override
+	public List<RestaurantVO>getList() {
+		log.info("getList...");
+		return mapper.getList();
+	}
+	
+	@Override
+	public List<RestaurantVO>topList(String address) {
+		log.info("topList...");
+		return mapper.topList(address);
+	}
+	
+	@Override
+	public List<RestaurantVO>topListcat(String address) {
+		log.info("topListcat...");
+		return mapper.topListcat(address);
+	}
+	
+	@Override
+	public List<RestaurantVO>orderByrating(){
+		log.info("orderByrating...");
+		return mapper.orderByrating();
+	}
+	
+	@Override
+	public List<RestaurantVO>orderByview(){
+		log.info("orderByview...");
+		return mapper.orderByview();
+	}
+	
+	@Override
+	public List<RestaurantVO>orderByreview(){
+		log.info("orderByreview...");
+		return mapper.orderByreview();
+	}
+	
+	@Override
+	public List<RestaurantVO>searchFood(String keyword){
+		log.info("orderByreview...");
+		return mapper.searchFood(keyword);		
+	}
 
 }

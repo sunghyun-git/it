@@ -20,7 +20,7 @@
       .modify-form{
       background-color: #EEEFF1;
       width: 500px;
-      height: 400px;
+      height: 500px;
       margin-right: auto;
       margin-left: auto;
       margin-top: 50px;
@@ -30,7 +30,16 @@
       border: none;
       border-radius: 30px; 
       }
-input[type=submit]{
+button[type=submit]{
+    background-color: blanchedalmond;
+    margin-top: -20px;
+    border:none;
+    border-radius: 30px;
+    margin-right: 20px;
+    width: 10%;
+    height: 50px;
+}
+input[type=button]{
     background-color: blanchedalmond;
     margin-top: -20px;
     border:none;
@@ -52,6 +61,7 @@ border-radius: 0px;
 appearance: none;
 margin-top: -20px;
 }   
+
 
 .formfield
 {

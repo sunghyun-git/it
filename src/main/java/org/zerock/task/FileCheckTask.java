@@ -48,18 +48,18 @@ public class FileCheckTask {
 		List<BoardAttachVO> fileList = attachMapper.getOldFiles();
 		
 		// ready for check file in directory with database file list
-		List<Path> fileListPaths = fileList.stream().map(vo -> Paths.get("D:\\zzz\\upload",
+		List<Path> fileListPaths = fileList.stream().map(vo -> Paths.get("D:\\spring\\upload",
 			vo.getUploadPath(), vo.getUuid() + "_" + vo.getFileName())).collect(Collectors.toList());
 		
 		// image file has thumbnail file
-		fileList.stream().filter(vo -> vo.isFileType() == true).map(vo -> Paths.get("D:\\zzz\\upload",
+		fileList.stream().filter(vo -> vo.isFileType() == true).map(vo -> Paths.get("D:\\spring\\upload",
 			vo.getUploadPath(), "s_" + vo.getUuid() + "_" + vo.getFileName()))
 			.forEach(p -> fileListPaths.add(p));
 		log.warn("=======================================");
 		fileListPaths.forEach(p -> log.warn(p));
 		
 		// file in yesterday directory
-		File targetDir = Paths.get("D:\\zzz\\upload", getFolderYesterDay()).toFile();
+		File targetDir = Paths.get("D:\\spring\\upload", getFolderYesterDay()).toFile();
 		File[] removeFiles = targetDir.listFiles(file -> fileListPaths.contains(file.toPath()) == false);
 		
 		if(removeFiles == null)	// null pointer exception 처리

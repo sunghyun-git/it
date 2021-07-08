@@ -41,18 +41,15 @@ public class test1234 {
 	@Test
 	public void testinsertall() {
 
-		Integer[] cid = { 8106735, 8094563, 8083654, 8080317, 8079539,
-				8078768, 8050105, 8043030, 8041476, 8025375, 8021209, 8002833, 7996326, 7988170, 7963629, 7963415,
-				7954373, 7940056, 7939102, 7919722, 7912367, 7904353, 7892863, 7888616, 7865809, 7851288, 7849814,
-				7845288, 7832476, 7817321, 7815105 };
+		Integer[] cid = { 2029456983 };
 
 		for (int i = 0; i < cid.length; i++) {
 			JSONObject jsonObject = conAddr(cid[i].toString());
-			testInsertRestaurant(cid[i].toString(), jsonObject);
+			//testInsertRestaurant(cid[i].toString(), jsonObject);
 			// testInsertRestaurant_open(cid[i].toString(), jsonObject);
 			// testInsertRestaurant_off(cid[i].toString(), jsonObject);
 			// testInsertRestaurant_menu(cid[i].toString(), jsonObject);
-			// testinsertRestaurant_review(cid[i].toString(), jsonObject);
+			 testinsertRestaurant_review(cid[i].toString(), jsonObject);
 		}
 	}
 
@@ -233,8 +230,10 @@ public class test1234 {
 					JSONObject list = (JSONObject) commentlist.get(i);
 					if (list.get("photoList") != null) {
 						JSONArray photoList = (JSONArray) list.get("photoList");
-
 						vo.setRw_photo(photoList.get(0).toString());
+						
+					}else {
+						vo.setRw_photo(null);
 					}
 					if (list.get("contents") != null) {
 						vo.setRw_content(list.get("contents").toString());

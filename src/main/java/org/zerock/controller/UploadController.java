@@ -54,7 +54,7 @@ public class UploadController {
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(UploadForm form, Model model) {
 		log.info("desc=" + form.getDesc());
-		String uploadFolder = "D:\\zzz\\upload";
+		String uploadFolder = "D:\\spring\\upload";
 		for(MultipartFile multipartFile : form.getUploadFile()) {
 			log.info("-----------------------------------");
 			log.info("Upload file name: " + multipartFile.getOriginalFilename());
@@ -78,7 +78,7 @@ public class UploadController {
 	@PostMapping("/uploadAjaxAction")
 	public void uploadAjaxPost(MultipartFile[] uploadFile) {
 		log.info("upload ajax post.....");
-		String uploadFolder = "D:\\zzz\\upload";
+		String uploadFolder = "D:\\spring\\upload";
 		
 		// 업로드 폴더 생성
 		File uploadPath = new File(uploadFolder, getFolder());
@@ -124,7 +124,7 @@ public class UploadController {
 		log.info("upload ajax post.....");
 		
 		List<AttachFileDTO> list = new ArrayList<AttachFileDTO>();
-		String uploadFolder = "D:\\zzz\\upload";
+		String uploadFolder = "D:\\spring\\upload";
 		
 		String uploadFolderPath = getFolder();
 		// 업로드 폴더 생성
@@ -192,7 +192,7 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
 		log.info("fileName: " + fileName);
-		File file = new File("D:\\zzz\\upload\\" + fileName);
+		File file = new File("D:\\spring\\upload\\" + fileName);
 		log.info("file: " + file);
 		ResponseEntity<byte[]> result = null;
 		try {
@@ -209,7 +209,7 @@ public class UploadController {
 //	@ResponseBody
 //	public ResponseEntity<Resource> downloadFile(String fileName) {
 //		log.info("download file: " + fileName);
-//		Resource resource = new FileSystemResource("D:\\zzz\\upload\\" + fileName);
+//		Resource resource = new FileSystemResource("D:\\spring\\upload\\" + fileName);
 //		log.info("resource: " + resource);
 //		return null;
 //	}
@@ -218,7 +218,7 @@ public class UploadController {
 //	@ResponseBody
 //	public ResponseEntity<Resource> downloadFile(String fileName) {
 //		log.info("download file: " + fileName);
-//		Resource resource = new FileSystemResource("D:\\zzz\\upload\\" + fileName);
+//		Resource resource = new FileSystemResource("D:\\spring\\upload\\" + fileName);
 //		log.info("resource: " + resource);
 //		String resourceName = resource.getFilename();
 //		HttpHeaders headers = new HttpHeaders();
@@ -236,7 +236,7 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 		log.info("download file: " + fileName);
-		Resource resource = new FileSystemResource("D:\\zzz\\upload\\" + fileName);
+		Resource resource = new FileSystemResource("D:\\spring\\upload\\" + fileName);
 		if(resource.exists() == false) {
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 		}
@@ -275,7 +275,7 @@ public class UploadController {
 		log.info("deleteFile: " + fileName);
 		File file;
 		try {
-			file = new File("D:\\zzz\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("D:\\spring\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 			if (type.equals("image")) {
 				String largeFileName = file.getAbsolutePath().replace("s_", "");

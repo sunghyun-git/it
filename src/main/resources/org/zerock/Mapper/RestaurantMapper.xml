@@ -4,6 +4,35 @@
 	"http::/mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.RestaurantMapper">
 
+	
+	<!-- 검색관련 쿼리문 -->
+	<select id="searchFood">
+	select * from food_restaurant where address like #{keyword} or catename like #{keyword} or placename like  #{keyword}
+	</select>
+	<!-- address 값에 해당하는 주소로 5개의 음식점 정보를 평점 순으로 가져옴 -->
+	<select id="topList" resultType="org.zerock.domain.RestaurantVO">
+		select * from food_restaurant where address like #{address} and  not mainphotourl is null ORDER BY rating desc limit 5 
+	</select>
+	
+	<!-- address값에 해당하는 키워드로 해당하는 카테고리에 10개의 음식점 정보를 평점 순으로 가져옴 -->
+	<select id="topListcat" resultType="org.zerock.domain.RestaurantVO">
+		select * from food_restaurant where catename like #{address} and  not mainphotourl is null ORDER BY rating desc limit 10
+	</select>
+		
+		<!-- 메인화면에서 보여줄 평점 순으로 나열한 6개의 음식점 정보 -->
+	<select id="orderByrating"  resultType="org.zerock.domain.RestaurantVO">
+		select * from food_restaurant where not mainphotourl is null ORDER BY rating desc limit 6
+	</select>
+	
+		<!-- 메인화면에서 보여줄 많이 본 순으로 나열한 6개의 음식점 정보 -->
+	<select id="orderByview" resultType="org.zerock.domain.RestaurantVO">
+		select * from food_restaurant where not mainphotourl is null ORDER BY views desc limit 6
+	</select>	
+	
+		<!-- 메인화면에서 보여줄 리뷰 많은 순으로 나열한 6개의 음식점 정보 -->
+	<select id="orderByreview" resultType="org.zerock.domain.RestaurantVO">
+		select * from food_restaurant where not mainphotourl is null ORDER BY reviewcount desc limit 6
+	</select>
 	<!-- DB에서 음식점 정보 읽어 오기 -->
 	<select id="readRestaurant"
 		resultType="org.zerock.domain.RestaurantVO">

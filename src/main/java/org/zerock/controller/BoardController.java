@@ -135,10 +135,10 @@ public class BoardController {
 	    
 	    attachList.forEach(attach -> {
 	      try {        
-	        Path file  = Paths.get("D:\\zzz\\upload\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
+	        Path file  = Paths.get("D:\\spring\\upload\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
 	        Files.deleteIfExists(file);
 	        if(Files.probeContentType(file).startsWith("image")) {
-	          Path thumbNail = Paths.get("D:\\zzz\\upload\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
+	          Path thumbNail = Paths.get("D:\\spring\\upload\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
 	          Files.delete(thumbNail);
 	        }
 	      }catch(Exception e) {

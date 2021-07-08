@@ -28,4 +28,15 @@ public interface RestaurantService {
 	
 	
 	public boolean removeRestaurant(Integer cid);
+	
+	public List<RestaurantVO>getList();
+	public List<RestaurantVO>topList(String address);	//xml파일에 id가 topList로 설정되어있는 쿼리문을 가져옴
+	public List<RestaurantVO>topListcat(String address);
+	public List<RestaurantVO>orderByrating();
+	public List<RestaurantVO>orderByview();
+	public List<RestaurantVO>orderByreview();
+	
+	
+	public List<RestaurantVO>searchFood(String keyword); //검색페이지에서 사용 할 예정
+	
 }

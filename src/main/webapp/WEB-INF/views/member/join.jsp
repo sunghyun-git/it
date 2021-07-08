@@ -122,15 +122,26 @@
             <input type="text" name="user_phone" ></div>
             <!--이용약관동의-->
             <fieldset>
-                <legend>모두 동의합니다</legend>
-                <input type="checkbox" name="checkbox1" value="1">이용약관 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox2" value="2">개인정보 수집, 이용 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox3" value="3">개인정보 이용 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox4" value="4">이벤트, 혜택정보 수신동의(선택)</input><br>
+                <legend>약관</legend>
+                <input type="checkbox" name="checkbox" value="1">이용약관 동의(필수)</input><br>
+                <input type="checkbox" name="checkbox" value="2">개인정보 수집, 이용 동의(필수)</input><br>
+                <input type="checkbox" name="checkbox" value="3">개인정보 이용 동의(필수)</input><br>
+                <input type="checkbox" name="checkbox" value="4">이벤트, 혜택정보 수신동의(선택)</input><br>
+                <input type="checkbox" name="checkbox" value="5" onclick='selectAll(this)'>모두 동의
             </fieldset>
             <!--회원 가입 버튼-->
             <input type="submit" value="회원가입"> 
             </form>
             </section>
+            <script type="text/javascript">
+            function selectAll(selectAll)  {
+            	  const checkboxes 
+            	       = document.getElementsByName('checkbox');
+            	  
+            	  checkboxes.forEach((checkbox) => {
+            	    checkbox.checked = selectAll.checked;
+            	  })
+            	}
+            </script>
           </body>
         </html>

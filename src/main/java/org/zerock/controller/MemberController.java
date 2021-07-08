@@ -1,6 +1,11 @@
 package org.zerock.controller;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,21 +39,85 @@ public class MemberController {
 		service.join(member);
 		return "redirect:/login";
 	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/mypage")
+	public void mypage(Principal principal,Model model) {
+		log.info("asdfasdf"+principal.getName());
+		model.addAttribute("member",service.read(principal.getName()));
+	}
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/mypage")
+	public String mypage(RedirectAttributes rttr){
+		
+		return "redirect:/modify";
+	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify")
-	public void modify() {
+	public void modify(Principal principal,Model model) {
+		model.addAttribute("member",service.read(principal.getName()));
+		MemberVO vo = service.read(principal.getName());
+		SimpleDateFormat year = new SimpleDateFormat("yyyy");
+		SimpleDateFormat month = new SimpleDateFormat("MM");
+		SimpleDateFormat day = new SimpleDateFormat("dd");
+		model.addAttribute("year", year.format(vo.getUserbirthday()));
+		model.addAttribute("month", month.format(vo.getUserbirthday()));
+		model.addAttribute("day", day.format(vo.getUserbirthday()));
+		String email = vo.getEmail();
+		int mailIndex = email.indexOf("@");
+		String email1 = email.substring(0,mailIndex);
+		String email2 = email.substring(mailIndex+1);
+		model.addAttribute("email1",email1);
+		model.addAttribute("email2",email2);
 		
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify")
-	public String modify(MemberVO member,RedirectAttributes rttr) {
+	public String modify(HttpServletRequest request,RedirectAttributes rttr,Principal principal) throws ParseException {
+		MemberVO vo = new MemberVO();
+		vo = service.read(principal.getName());
 		
+		vo.setPwd(request.getParameter("pwd"));
+		if(request.getParameter("nickname") != null) {
+			vo.setNickname(request.getParameter("nickname"));
+		} else {
+			vo.setNickname("익명");
+		}
+		String email1 = request.getParameter("email1");
+		
+		String email2 = request.getParameter("email2");
+		
+		String email = email1 +"@"+email2;
+		vo.setEmail(email);
+		
+		String year =request.getParameter("year");
+		String month = request.getParameter("month");
+		String day = request.getParameter("day");
+		String birth = year+"-"+month+"-"+day;
+		
+		SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthday = new Date(DF.parse(birth).getTime());
+		vo.setUserbirthday(birthday);
+		
+		if(request.getParameter("agree")==null) {
+			vo.setAgree(false);
+		}else {
+			vo.setAgree(true);
+		}
+		service.update(vo);
 		return "redirect:/main";
 	}
 	
 	@GetMapping("/login")
-	public void login() {
+	public void login(Model model,String error, String logout) {
+		if(error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
 		
+		if(logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
 	}
 
 	

@@ -92,8 +92,7 @@ display1();
 <input type="text" name="catename" placeholder="카테고리(ex : 한식, 양식, 고기 등)"><br>
 <input type="text" name="parking" placeholder="주차 여부 (Y or N)"><br>
 <input type="text" name="phonenum" placeholder="음식점  번호"><br>
-<input type="text" name="x" placeholder="음식점 위도"><br>
-<input type="text" name="y" placeholder="음식점 경도"><br>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <hr>
 <h1>음식점 오픈 시간, 브레이크, 라스트오더 타임</h1>
 <input type="text" name="periodName" placeholder="영업 기간 이름(ex ○월~○일)"><br>

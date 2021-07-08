@@ -21,6 +21,14 @@ public interface RestaurantMapper {
 	public List<Restaurant_menuVO> readRestaurant_menu(Integer cid);
 	public List<Restaurant_reviewVO> readRestaurant_review(Integer cid);
 	
+	public List<RestaurantVO>getList();		//사실 상 사용안함
+	public List<RestaurantVO>topList(String address);	//xml파일의 id가 topList로 설정된 구문을 읽어 옴
+	public List<RestaurantVO>topListcat(String address);
+	public List<RestaurantVO>searchFood(String keyword); //검색페이지에서 사용 할 예정 메인페이지에서 키워드 값을 받아옴
+	public List<RestaurantVO>orderByrating();
+	public List<RestaurantVO>orderByview();
+	public List<RestaurantVO>orderByreview();
+	
 	// create
 	public void insertRestaurant(RestaurantVO vo);
 	public void insertRestaurant_open(Restaurant_openHourVO vo);
