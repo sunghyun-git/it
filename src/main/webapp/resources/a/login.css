@@ -23,23 +23,30 @@ body{
     border: none;
     border-radius: 30px;
 }
+.login-area{
+	padding-top:70px;
+}
+.login-area a{
+	text-decoration-line:none;
+
+}
 .login-form h1{
         font-size: 32px;
         text-align: center;
         color: #000000 ;
         font-family: fantasy;
 }
-.login-form h3{
-       
-        text-align: center;
-        color: red ;
-        
+
+.int-area{
+	width: 400px; 
+	top: 5%;
+	left: 5%;
+	margin:  -5px 0 0 -5px;
 }
-.int-area{width: 400px; 
-top: 5%;
-left: 5%;
-margin:  -5px 0 0 -5px;}
-.int-area input{width: 100px;}
+.int-area input{
+	idth: 100px;
+}
+
 .int-area{
     position:relative;
     margin:10px 0;
@@ -88,6 +95,7 @@ input[type=submit]{
     font-size: 14pt;
     margin-top:30px;
 }
+
 input[type=button]{
     background-color: #8aa1a1;
     border:none;
@@ -98,6 +106,7 @@ input[type=button]{
     font-size: 14pt;
     margin-top:30px;
 }
+
 .caption{
 margin-top: 20px;
 text-align: center;
@@ -105,4 +114,8 @@ text-align: center;
 .caption a{
     font-size:  15px; 
     text-decoration: none;
+}
+
+.checkbox{
+	float:left;
 }

@@ -1,4 +1,5 @@
 *{margin: 0px; padding: 0; box-sizing: border-box; text-align: center; align-items: center;}   
+
 body{
     font-family: 'Noto Sans KR' ,sans-serif;
     display: flex;
@@ -8,6 +9,7 @@ body{
     margin-top: 50px;
     background-color: #485861;
 }
+
 .join-form{position: relative; z-index: 2;
     background-color: #EEEFF1;
     width: 700px;
@@ -24,16 +26,20 @@ body{
         font-size: 32px;
         text-align: center
 }
+
 .join-form h5{
     text-align: center;
 }
+
 .int-area{width: 300px;text-align: center; 
     top: 28%;
     left: 28%;
-    margin:  -28px 0 0 -28px;}
+    margin:  -28px 0 0 -28px;
+ }
 
 .int-area input{height: 30px; 
 }
+
 .int-area{
     position:relative;
     margin:10px 0;
@@ -55,6 +61,7 @@ input:placeholder-shown + label{
     top:15px;
     width: 50%;
 }
+
 input:focus + label, label{
     color:#8aa1a1;
     font-size:10pt;
@@ -72,6 +79,7 @@ input:focus, input:not(:placeholder-shown){
     border-bottom: solid 1px #c0c0c0;
     outline:none;
 }
+
 input[type=button]{
     background-color: #8aa1a1;
     border:none;
@@ -84,8 +92,9 @@ input[type=button]{
     text-align: center;
     margin-bottom: 30px;
 }
+
 input::placeholder {
-    color: red;
+    color: gray;
     font-style: italic;
   }
 
@@ -100,6 +109,19 @@ input[type=submit]{
     text-align: center;
     margin-top: 20px;
 }
+
+input[type=reset]{
+    background-color: #8aa1a1;
+    border:none;
+    color:white;
+    border-radius: 30px;
+    width:30%;
+    height:50px;
+    font-size: 14pt;
+    text-align: center;
+    margin-top: 20px;
+}
+
 select {
 width: 150px;
 height: 10%;
@@ -112,12 +134,15 @@ border-radius: 0px;
 -moz-appearance: none;
 appearance: none;
 }
+
 input{
     margin: .4rem;
 }
+
 label {
     font: 1rem 'Fira Sans', sans-serif;
 }
+
 .formfield{text-align: center; 
     align-items: center;
     top: 28%;
@@ -134,10 +159,12 @@ label {
         height: 10%;
         margin-top: -30px;
     }
+    
 .formfield{
     position:relative;
     margin:10px 0;    
 }
+
 fieldset{
    width: 500px;
    margin-left: 90px;

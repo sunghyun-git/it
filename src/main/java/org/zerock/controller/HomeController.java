@@ -28,11 +28,11 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
-		Integer[] cid = { 18668029, 697084504, 924229434, 2029556524 };
-		for (int i = 0; i < cid.length; i++) {
-			model.addAttribute("Restaurant" + i, service.getRestaurant(cid[i]));
-		}
-		return "main";
+		model.addAttribute("list",service.orderByrating());	//jsp에서 임의의 list 객체를 RestaurantService의  List<RestaurantVO>orderByrating();에 저장
+		model.addAttribute("list1",service.orderByview());	
+		model.addAttribute("list2",service.orderByreview());
+		
+		return "main/list";
 	}
 	
 }

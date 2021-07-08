@@ -10,6 +10,8 @@
     </head>
     <body> 
         <header>
+        
+        </div>
             <div class="thumb-wrapper">
                 <img src="/resources/img/user-thumb.png">
                 <div class="badge"></div>
