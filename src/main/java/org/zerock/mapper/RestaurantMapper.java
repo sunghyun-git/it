@@ -2,6 +2,7 @@ package org.zerock.mapper;
 
 import java.util.List;
 
+import org.zerock.domain.Criteria;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -13,7 +14,8 @@ import lombok.Data;
 
 
 public interface RestaurantMapper {
-	
+	public int getSearchCount(Criteria cri);
+	public List<RestaurantVO>searchFood(Criteria cri);
 	// read
 	public RestaurantVO readRestaurant(Integer cid);
 	public List<Restaurant_openHourVO> readRestaurant_open(Integer cid);
@@ -23,8 +25,7 @@ public interface RestaurantMapper {
 	
 	public List<RestaurantVO>getList();		//사실 상 사용안함
 	public List<RestaurantVO>topList(String address);	//xml파일의 id가 topList로 설정된 구문을 읽어 옴
-	public List<RestaurantVO>topListcat(String address);
-	public List<RestaurantVO>searchFood(String keyword); //검색페이지에서 사용 할 예정 메인페이지에서 키워드 값을 받아옴
+	public List<RestaurantVO>topListcat(String address); 
 	public List<RestaurantVO>orderByrating();
 	public List<RestaurantVO>orderByview();
 	public List<RestaurantVO>orderByreview();
@@ -44,6 +45,8 @@ public interface RestaurantMapper {
 	public void updateRestaurant_menu(Restaurant_menuVO vo);
 	public void updateRestaurant_review(Restaurant_reviewVO vo);
 	
+	public void updatereviewcount(Integer cid);
+	public void updateviewscount(Integer cid);
 	//delete
 	
 	public void deleteRestaurant(Integer cid);

@@ -243,11 +243,13 @@ public class CommonController2 {
 		return "redirect:/main";
 	}
 
-	@GetMapping("/jsonParse")
+	@GetMapping("/restaurant")
 	public void jsonParse(Model model, HttpServletRequest request) {
-
+		
+		
 		Integer cid = Integer.parseInt(request.getParameter("cid"));
 		// service.getRestaurant(2030217673);
+		service.updateviewscount(cid);
 		model.addAttribute("Restaurant", service.getRestaurant(cid));
 
 		model.addAttribute("open", service.getRestaurantOpen(cid));

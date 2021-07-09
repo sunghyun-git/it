@@ -8,10 +8,13 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보수정</title>
+ <link rel="stylesheet" href="/resources/a/main_view.css" type="text/css">
 <link rel="stylesheet" href="/resources/a/Mypage.css">
  <script src="/resources/js/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
+<%@ include file="../includes/header2.jsp"%>
 	<header>
 
 		</div>
@@ -57,16 +60,17 @@
 			</div>
 
 		</li>
-
-		<li class="item mouse-effect">
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')"> 
+		<li class="item mouse-effect" onclick="location.href='../register'">
 			<div class="left">
 				<img src="/resources/img/icon/business.svg" />
-				<div class="name">Business</div>
+				<div class="name">Restaurant register</div>
 			</div>
 			<div class="right">
 				<img src="/resources/img/icon/right_arrow.svg" />
 			</div>
 		</li>
+		</sec:authorize>
 		
 		
 		<li class="item mouse-effect" onclick="javascript:go();">

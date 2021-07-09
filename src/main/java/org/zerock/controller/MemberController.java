@@ -74,7 +74,7 @@ public class MemberController {
 		
 		
 		
-		//service.join(vo);
+		service.join(vo);
 		return "redirect:/member/login";
 	}
 	@PreAuthorize("isAuthenticated()")

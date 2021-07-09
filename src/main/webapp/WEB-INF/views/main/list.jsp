@@ -27,14 +27,14 @@
         <a href="/main/list"> <img src="/resources/img/eatchelin.png"></a>
         </div>
         
-   <!-- 검색 창 -->  
-        <div class="search">
-       	<form class='searchForm' action="/main/search" method='get'> 
-            <input type="text" name='keyword'> 
-            <button><i class="fas fa-search"></i></button>
-            </form>	
-        </div>        
-               
+   <!-- 검색창 -->
+    	   <div class="search">
+                <form id='searchForm' action="/main/search" method='get'> 
+                    <input class="search_txt" type="text" placeholder="식당 또는 지역,음식을 검색하세요." name='keyword'> 
+                    <button class="search_btn"><i class="fas fa-search"></i></button>
+                </form>   
+            </div>
+
      <ul class="mainbar_join">
      <sec:authorize access="isAnonymous()">  <!-- 로그인 안했을 때 -->  
          <li><a href="/member/login">로그인</a></li>
@@ -162,12 +162,13 @@
         	평점순
         	<br>
         	   <c:forEach var="restaurant" items="${list}"> 
-  	
+  			<a href="../restaurant?cid=${restaurant.cid }">
          	 <img src="<c:out value="${restaurant.mainphotourl}"/>"  height= "160px" width= "360px"/>
             <div class="name">
             <h1><c:out value="${restaurant.placename}"/> <c:out value="${restaurant.rating}"/> </h1>
            <c:out value="${restaurant.address}"/> - <c:out value="${restaurant.catename}"/> <br><br>
-			 </div>                        
+			 </div>  
+			 </a>                      
         </c:forEach>
         </div>
         <hr style="margin-top:80px">
@@ -175,12 +176,14 @@
         <!-- 조회 수 높은 순으로 음식 추천 -->
         	조회수 높은 순
              <div class="food_recommend">
-        	   <c:forEach var="restaurant" items="${list1}">    
+        	   <c:forEach var="restaurant" items="${list1}">  
+        	   <a href="../restaurant?cid=${restaurant.cid }">  
          	 <img src="<c:out value="${restaurant.mainphotourl}"/>" height= "160px" width= "360px"/>
             <div class="name">
             <h1><c:out value="${restaurant.placename}"/> <c:out value="${restaurant.rating}"/> </h1>
            <c:out value="${restaurant.address}"/> - <c:out value="${restaurant.catename}"/>
-			 </div>                        
+			 </div> 
+			 </a>                       
         </c:forEach>
         </div>            
         
@@ -190,11 +193,14 @@
            댓글 많은 순	 
              <div class="food_recommend">
         	   <c:forEach var="restaurant" items="${list2}">    
+        	   <a href="../restaurant?cid=${restaurant.cid }">
          	 <img src="<c:out value="${restaurant.mainphotourl}"/>" height= "160px" width= "360px"/>
             <div class="name">
             <h1><c:out value="${restaurant.placename}"/> <c:out value="${restaurant.rating}"/> </h1>
            <c:out value="${restaurant.address}"/> - <c:out value="${restaurant.catename}"/>
-			 </div>                        
+           
+			 </div>      
+			 </a>                  
         </c:forEach>
         </div>
          

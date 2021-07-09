@@ -2,6 +2,7 @@ package org.zerock.service;
 
 import java.util.List;
 
+import org.zerock.domain.Criteria;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -9,6 +10,10 @@ import org.zerock.domain.Restaurant_openHourVO;
 import org.zerock.domain.Restaurant_reviewVO;
 
 public interface RestaurantService {
+	
+	public int getSearchCount(Criteria cri);
+	
+	
 	public void registerRestaurant(RestaurantVO vo);
 	public void registerRestaurantOff(List<Restaurant_offVO> offvo);
 	public void registerRestaurantOpen(List<Restaurant_openHourVO> openvo);
@@ -37,6 +42,9 @@ public interface RestaurantService {
 	public List<RestaurantVO>orderByreview();
 	
 	
-	public List<RestaurantVO>searchFood(String keyword); //검색페이지에서 사용 할 예정
+	public List<RestaurantVO>searchFood(Criteria criteria); //검색페이지에서 사용 할 예정
+	
+	public void updatereviewcount(Integer cid);
+	public void updateviewscount(Integer cid);
 	
 }

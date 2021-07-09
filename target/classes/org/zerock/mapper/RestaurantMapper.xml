@@ -5,10 +5,16 @@
 <mapper namespace="org.zerock.mapper.RestaurantMapper">
 
 	
-	<!-- 검색관련 쿼리문 -->
-	<select id="searchFood">
-	select * from food_restaurant where address like #{keyword} or catename like #{keyword} or placename like  #{keyword}
+	<select id="searchFood" resultType="org.zerock.domain.RestaurantVO">
+	select * from food_restaurant where address like CONCAT ('%',#{keyword},'%') or catename like CONCAT ('%',#{keyword},'%') or placename like  CONCAT ('%',#{keyword},'%') limit #{pageStart}, #{amount}
 	</select>
+	
+
+	<select id="getSearchCount" resultType="int">
+		select count(*) from food_restaurant where address like CONCAT ('%',#{keyword},'%') or catename like CONCAT ('%',#{keyword},'%') or placename like  CONCAT ('%',#{keyword},'%')
+	</select>
+	
+	
 	<!-- address 값에 해당하는 주소로 5개의 음식점 정보를 평점 순으로 가져옴 -->
 	<select id="topList" resultType="org.zerock.domain.RestaurantVO">
 		select * from food_restaurant where address like CONCAT ('%',#{address},'%') and  not mainphotourl is null ORDER BY rating desc limit 5 
@@ -195,5 +201,11 @@
 		delete from food_restaurant_review where rw_no =
 		#{rw_no}
 	</delete>
-
+	
+	<update id="updatereviewcount">
+	update food_restaurant set reviewcount = reviewcount + 1 where cid = #{cid}
+</update>
+	<update id="updateviewscount">
+	update food_restaurant set views= views + 1 where cid = #{cid}
+</update>
 </mapper>

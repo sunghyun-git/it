@@ -43,23 +43,17 @@ a{
 /* search 부분 */
 .search{
     position: absolute;
-    top: 130px;
+    top: 50px;
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
     border: 1px solid #485861;
     height: 30px;
+    width: 50%;
     border-radius: 35px;
     padding: 5px;
 }
-.search:hover > .search-txt{
-    width: 500px;
-    padding: 0 6px;
-}
-.search:hover > .search-btn{
-    background: white;
-}
-.search-btn{
+.search_btn{
     color: #485861;
     float: right;
     width: 30px;
@@ -70,17 +64,12 @@ a{
     justify-content: center;
     align-items: center;
 }
-.search-txt {
-    border: none;
-    background: none;
-    outline: none;
-    float: left;
-    padding: 0px;
-    color: black;
-    font-size: 16px;
-    transition: 0.4s;
-    line-height: 30px;
-    width: 0px;
+.search_txt {
+    border: 1px solid red;
+    position: relative;
+    left: 20px;
+    top: 5px;
+    width: 610px;
 }
  .category{
 

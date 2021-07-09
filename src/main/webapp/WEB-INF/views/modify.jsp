@@ -1,75 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>음식점 수정 </title>
-<style>
- body {
-        margin: 0;
-        font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
-        color: #ffe6cf;
-        background-color: #657680;
-        font-size: 15px;
-        line-height: 1.4;
-        font-weight: 500;
-        overflow-x: hidden;
-        margin-bottom: 0px;
-        text-align: center;
-      }
-      .int-pass{
-text-align: center; 
-align-items: center;
-top: 28%;
-left: 0%;
-}
-.int-pass > input{
-    background:transparent; 
-    border:none;
-    border-bottom: solid 1px #ccc;
-    padding: -10px 5px 10px;
-    font-size:14pt;
-    width: 325px;
-    height: 1%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.modify-form{
-      background-color: #EEEFF1;
-      width: 500px;
-      height: auto;
-      margin-right: auto;
-      margin-left: auto;
-      margin-top: 50px;
-      margin-bottom: 50px;
-      padding: 20px;
-      text-align: center;
-      border: none;
-      border-radius: 30px; 
-      }
-      button[type=submit]{
-    background-color: blanchedalmond;
-    margin-top: -20px;
-    border:none;
-    border-radius: 30px;
-    margin-right: 20px;
-    width: 10%;
-    height: 50px;
-}
-input[type=button]{
-    background-color: blanchedalmond;
-    margin-top: -20px;
-    border:none;
-    border-radius: 30px;
-    margin-right: 20px;
-    width: 10%;
-    height: 50px;
-}
-</style>
+
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+ <link rel="stylesheet" href="/resources/a/main_view.css" type="text/css">
+ <link rel="stylesheet" href="/resources/a/register2.css" type="text/css">
 <script>
 var arrInput = new Array(0);
   var arrInputValue = new Array(0);
@@ -149,6 +91,7 @@ display1();
 
 </head>
 <body>
+<%@ include file="includes/header2.jsp"%>
 <form method="post" action="/modify">
 <input type="hidden" name="cid" value="${cid }">
 <h1>음식점 정보</h1>

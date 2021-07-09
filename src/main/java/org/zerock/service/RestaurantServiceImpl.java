@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zerock.domain.Criteria;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -19,9 +20,20 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
+	
+
 	@Setter(onMethod_ = { @Autowired })
 	RestaurantMapper mapper;
-
+	@Override
+	public void updatereviewcount(Integer cid) {
+		mapper.updatereviewcount(cid);
+		
+	}
+	@Override
+	public void updateviewscount(Integer cid) {
+		mapper.updateviewscount(cid);
+	}
+	
 	@Override
 	public void registerRestaurant(RestaurantVO vo) {
 		// log.info("vo : "+vo);
@@ -156,9 +168,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 	
 	@Override
-	public List<RestaurantVO>searchFood(String keyword){
+	public List<RestaurantVO>searchFood(Criteria cri){
 		log.info("orderByreview...");
-		return mapper.searchFood(keyword);		
+		return mapper.searchFood(cri);		
 	}
+	@Override
+	public int getSearchCount(Criteria cri) {
+		log.info("get total count");
+		return mapper.getSearchCount(cri);
+	}
+	
 
 }

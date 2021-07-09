@@ -18,7 +18,8 @@
         </header>
        
        <c:forEach var="restaurant" items="${list}">
-        <ul class="list">
+       
+        <ul class="list" onclick ="location.href='../restaurant?cid=${restaurant.cid }'">
             <li class="itemlist">     
         <div class="box">
           <img src="<c:out value="${restaurant.mainphotourl}"/>"/>
@@ -30,6 +31,7 @@
         </div>
             </li>
         </ul>
+        
         </c:forEach>
     </body>
 </html>

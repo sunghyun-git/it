@@ -11,8 +11,8 @@ var Swiper=new Swiper('.swiper-container', {
 })
 
 
-	var searchForm = $(".searchForm");
-     		$(".searchForm button").on("click", function(e) { 	
+	var searchForm = $("#searchForm");
+     		$("#searchForm button").on("click", function(e) { 	
      		if (!searchForm.find("input[name='keyword']").val()) {
      		alert("키워드를 입력하세요");
      		return false;

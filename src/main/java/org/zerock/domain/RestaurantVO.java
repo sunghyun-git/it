@@ -12,6 +12,7 @@ public class RestaurantVO {
 	private String placename;
 	private String phonenum;
 	private String mainphotourl;
+	private int reviewcount;
 	private int views;
 	private double rating;
 

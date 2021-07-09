@@ -1,4 +1,4 @@
-package org.zerock.controller;
+ package org.zerock.controller;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.service.BoardService;
 import org.zerock.service.RestaurantService;
@@ -58,15 +60,18 @@ public class MainController {
 	
 //	검색관련 컨트롤러
 	@GetMapping("/search")
-	public void search(HttpServletRequest request, Model model,@RequestParam("keyword") String keyword) {
-		//String address=request.getParameter("address");
-		
-		log.info("search..." + keyword);
-//		log.info("address..."+address);
-//		model.addAttribute("list",service.searchFood(address));
-//		String place = address.replace("%", "");
-//		model.addAttribute("place",place);		
-	}
+	public void search(HttpServletRequest request, Model model,Criteria cri) {
+//		String address=request.getParameter("address");
 	
-
+		log.info("search..." + cri.getKeyword());
+//		log.info("address..."+address);
+		model.addAttribute("list",service.searchFood(cri));
+//		keyword.replace("+","");
+		int total = service.getSearchCount(cri);
+		String place = cri.getKeyword();
+		model.addAttribute("place",place);	
+		model.addAttribute("pageMaker", new PageDTO(cri, total));	
+	}
 }
+
+
