@@ -4,19 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
 <link rel="stylesheet" href="/resources/a/join.css">
+<script src="/resources/js/jquery-3.6.0.min.js"></script>
+<title>회원가입</title>
 </head>
- <body>
-        <!--header-->
+<body>
+ <!--header-->
         <section class="join-form">
             <br><h1>회원가입</h1>
             <h5>잇! 슐랭에 방문해주셔서 감사합니다</h5><br>
-            <form name="login" action="portfolio" method="POST">
+            <form name="login" action="/member/join" method="post">
             <!--아이디 div class int-area로 잡아서 만듦-->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div class="int-area">
             * 아이디<br>
-            <input type="text" name="user_ID"  >
+            <input type="text" name="userid"  id="userid">
             </div>
             <!--아이디 체크 버튼 -->
             <input type="button" name="user_IDcheck" value="아이디 중복 확인"> 
@@ -24,124 +26,208 @@
             <!--비밀번호-->
             <div class="int-area">
              *  비밀번호<br> 
-            <input type="password" name="user_PW1">
+            <input type="password" name="pwd" id="pwd">
             </div> 
             <!--비밀번호 재확인-->
             <div class="int-area">  
              *  비밀번호 재확인<br> 
-            <input type="password" name="user_PW2">
+            <input type="password" name="pwd2" id="pwd2">
             </div>
             <!--비밀번호 재확인 체크 버튼-->
-            <input type="button" name="user_PWcheck" value="비밀번호 재확인">
+            
             <br>
+            <!-- 이름 -->
+            <div class="int-area">
+            * 이름<br> <input type="text" name="username" value="" id="username">
+            </div>
             <!--닉네임-->
             <div class="int-area">
-            * 닉네임<br>  <input type="text" name="user_name" value=""></div> 
+            * 닉네임<br>  <input type="text" name="nickname" value="" id="nickname"></div> 
             <!--생년월일 select를 사용해서 구현-->
-            * 생년월일<br><br>
-              <select name="year">
-                <option value="">-- 선택 --</option>
-                <option value="1994">1994</option>
-                <option value="1995">1995</option>
-                <option value="1996">1996</option>
-                <option value="1997">1997</option>
-                <option value="1998">1998</option>
-                <option value="1999">1999</option>
-                <option value="2000">2000</option>
-              </select>
-              <select name="month">
-                <option value="">-- 선택 --</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
-              <select name="day">
-                <option value="">-- 선택 --</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-              </select>
+            		* 생년월일<br>
+            		<div class="fieldlabel">
+					<br> 
+					<div class="formfield">
+					<input id="year" name="year" list="yearlist"
+						value="">
+					<datalist id="yearlist">
+						<option value="1990">
+						<option value="1991">
+						<option value="1992">
+						<option value="1993">
+						<option value="1994">
+						<option value="1995">
+						<option value="1996">
+						<option value="1997">
+						<option value="1998">
+						<option value="1999">
+						<option value="2000">
+					</datalist>
+					<input id="month" name="month" list="monthlist" value="">
+					<datalist id="monthlist">
+
+						<option value="01">
+						<option value="02">
+						<option value="03">
+						<option value="04">
+						<option value="05">
+						<option value="06">
+						<option value="07">
+						<option value="08">
+						<option value="09">
+						<option value="10">
+						<option value="11">
+						<option value="12">
+					</datalist>
+
+					<label for="day"></label> <input id="day" name="day" list="daylist"
+						value="">
+					<datalist id="daylist">
+						<option value="01">
+						<option value="02">
+						<option value="03">
+						<option value="04">
+						<option value="05">
+						<option value="06">
+						<option value="07">
+						<option value="08">
+						<option value="09">
+						<option value="10">
+						<option value="11">
+						<option value="12">
+						<option value="13">
+						<option value="14">
+						<option value="15">
+						<option value="16">
+						<option value="17">
+						<option value="18">
+						<option value="19">
+						<option value="20">
+						<option value="21">
+						<option value="22">
+						<option value="23">
+						<option value="24">
+						<option value="25">
+						<option value="26">
+						<option value="27">
+						<option value="28">
+						<option value="29">
+						<option value="30">
+						<option value="31">
+					</datalist>
+					</div>
+					</div>
               <br><br>
-              <div>
-            <!--성별-->
-              * 성별<br>
-              <input type="radio" name="gender" value="m" id="man"label for="man">남자</input>
-              <input type="radio" name="gender" value="m" id="woman"label for="woman">여자</input></div><br>
             <!--이메일-->
-              * 이메일<div class="fieldlabel"><label for="email01"></label>
-             <div class="formfield"><input type="text" id="email01" name="email01" size="20" maxlength="20" 
-                    value="" autocomplete="off"><span>@</span>
-             <input id="email02" name="email02" list="domains" >
-             <datalist id="domains">
-                <option value="naver.com">
-                <option value="daum.net">
-                <option value="gmail.com">
-                <option value="yahoo.co.kr">
-            </datalist>
+              * 이메일<div class="fieldlabel">
+				<label for="email01"></label>
+				<div class="formfield">
+					<input type="text" id="email1" name="email1" size="20"
+						maxlength="20" value="" autocomplete="off"><span>@</span>
+					<input id="email2" name="email2" list="domains" value="">
+					<datalist id="domains">
+						<option value="naver.com">
+						<option value="daum.net">
+						<option value="gmail.com">
+						<option value="yahoo.co.kr">
+					</datalist>
                 </div>
-            <!--휴대전화-->
-             <div class="int-area">
-             * 휴대전화<br>  
-            <input type="text" name="user_phone" ></div>
+                </div>
             <!--이용약관동의-->
             <fieldset>
-                <legend>약관</legend>
-                <input type="checkbox" name="checkbox" value="1">이용약관 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox" value="2">개인정보 수집, 이용 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox" value="3">개인정보 이용 동의(필수)</input><br>
-                <input type="checkbox" name="checkbox" value="4">이벤트, 혜택정보 수신동의(선택)</input><br>
-                <input type="checkbox" name="checkbox" value="5" onclick='selectAll(this)'>모두 동의
+                <legend>모두 동의합니다</legend>
+                <input type="checkbox" id="checkbox1" name="checkbox" value="1">이용약관 동의(필수)<br>
+                <input type="checkbox" id="checkbox2" name="checkbox" value="2">개인정보 수집, 이용 동의(필수)<br>
+                <input type="checkbox" id="checkbox3" name="checkbox" value="3">개인정보 이용 동의(필수)<br>
+                <input type="checkbox" id="checkbox4" name="agree" value="4">이벤트, 혜택정보 수신동의(선택)<br>
+                <input type="checkbox" name="checkbox" value="5" onclick='selectAll(this)'>모두 동의(필수 약관)<br>
             </fieldset>
             <!--회원 가입 버튼-->
-            <input type="submit" value="회원가입"> 
+            <button type="submit" >회원가입 </button>
             </form>
             </section>
-            <script type="text/javascript">
-            function selectAll(selectAll)  {
-            	  const checkboxes 
-            	       = document.getElementsByName('checkbox');
-            	  
-            	  checkboxes.forEach((checkbox) => {
-            	    checkbox.checked = selectAll.checked;
-            	  })
-            	}
-            </script>
+
           </body>
-        </html>
+          
+          <script type="text/javascript">
+          
+          function selectAll(selectAll)  {
+        	  const checkboxes 
+        	       = document.getElementsByName('checkbox');
+        	  
+        	  checkboxes.forEach((checkbox) => {
+        	    checkbox.checked = selectAll.checked;
+        	  })
+        	}
+          
+          $(document).ready(function(e){
+              $("button[type='submit']").on("click", function(e){  
+            	  if($('#userid').val()==''){
+            		  alert('아이디를 입력하세요');
+            		  document.getElementById('userid').focus();
+            		  return false;
+            	  }
+            	 
+              	if($('#pwd').val()==''){
+              		alert('비밀번호를 입력하세요');
+              		document.getElementById('pwd').focus();
+              		return false;
+              	}	
+              	if($('#pwd').val() != ($('#pwd2').val())){
+              		alert('비밀번호가 다릅니다.');
+              		document.getElementById('pwd2').focus();
+              		return false;
+              	}
+              	if($('#username').val()==''){
+              		alert('이름을 입력하세요');
+              		document.getElementById('username').focus();
+              		return false;
+              	}
+              	if($('#nickname').val()==''){
+              		alert('닉네임을 입력하세요');
+              		document.getElementById('nickname').focus();
+              		return false;
+              	}
+              	if($('#year').val()==''){
+              		alert('생년월일을 입력하세요');
+              		document.getElementById('year').focus();
+              		return false;
+              	}
+              	if($('#month').val()==''){
+              		alert('생년월일을 입력하세요');
+              		document.getElementById('month').focus();
+              		return false;
+              	}
+              	if($('#day').val()==''){
+              		alert('생년월일을 입력하세요');
+              		document.getElementById('day').focus();
+              		return false;
+              	}
+              	if($('#email1').val()==''){
+              		alert('이메일을 입력하세요');
+              		document.getElementById('email1').focus();
+              		return false;
+              	}
+              	if($('#email2').val()==''){
+              		alert('이메일을 입력하세요');
+              		document.getElementById('email2').focus();
+              		return false;
+              	}
+              	if($('#checkbox1').is(":checked")==false ){
+              		alert('이용약관에 동의해주세요');
+              		return false;
+              	}
+              	if($('#checkbox2').is(":checked")==false){
+              		alert('이용약관에 동의해주세요');
+              		return false;
+              	}
+              	if($('#checkbox3').is(":checked")==false){
+              		alert('이용약관에 동의해주세요');
+              		return false;
+              	}
+              	return true;
+              });
+              });
+          </script>
+          
+</html>

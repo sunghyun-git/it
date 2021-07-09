@@ -8,7 +8,9 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +37,50 @@ public class MemberController {
 	}
 	
 	@PostMapping("/join")
-	public String join(MemberVO member, RedirectAttributes rttr) {
-		service.join(member);
-		return "redirect:/login";
+	public String join(RedirectAttributes rttr,HttpServletRequest request) throws ParseException {
+		//service.join(member);
+		MemberVO vo = new MemberVO();
+		vo.setUserid(request.getParameter("userid"));
+		vo.setPwd(request.getParameter("pwd"));
+		vo.setUsername(request.getParameter("username"));
+		if(request.getParameter("nickname") != null) {
+			vo.setNickname(request.getParameter("nickname"));
+		} else {
+			vo.setNickname("익명");
+		}
+		String email1 = request.getParameter("email1");
+		
+		String email2 = request.getParameter("email2");
+		
+		String email = email1 +"@"+email2;
+		vo.setEmail(email);
+		
+		String year =request.getParameter("year");
+		String month = request.getParameter("month");
+		String day = request.getParameter("day");
+		String birth = year+"-"+month+"-"+day;
+		
+		SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthday = new Date(DF.parse(birth).getTime());
+		vo.setUserbirthday(birthday);
+		
+		if(request.getParameter("agree")==null) {
+			vo.setAgree(false);
+		}else {
+			vo.setAgree(true);
+		}
+		log.info("member : "+vo);
+		rttr.addFlashAttribute("result", vo.getUserid());
+		
+		
+		
+		//service.join(vo);
+		return "redirect:/member/login";
 	}
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/mypage")
 	public void mypage(Principal principal,Model model) {
-		log.info("asdfasdf"+principal.getName());
+		
 		model.addAttribute("member",service.read(principal.getName()));
 	}
 	@PreAuthorize("isAuthenticated()")
@@ -110,7 +148,10 @@ public class MemberController {
 	}
 	
 	@GetMapping("/login")
-	public void login(Model model,String error, String logout) {
+	public String login(Model model,String error, String logout) {
+		if(isAuthenticated()) {
+			return "redirect:/";
+		}
 		if(error != null) {
 			model.addAttribute("error", "Login Error Check Your Account");
 		}
@@ -118,7 +159,21 @@ public class MemberController {
 		if(logout != null) {
 			model.addAttribute("logout", "Logout!!");
 		}
+		return "/member/login";
 	}
 
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/logout")
+	public void logoutGet() {
+		log.info("logout");
+	}
+	private boolean isAuthenticated() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (authentication == null || AnonymousAuthenticationToken.class.
+	      isAssignableFrom(authentication.getClass())) {
+	        return false;
+	    }
+	    return authentication.isAuthenticated();
+	}
 	
 }

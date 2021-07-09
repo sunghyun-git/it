@@ -16,12 +16,12 @@
         <section class="login-form"><br><br><br><br>
             <h1>잇! 슐랭</h1> 
             <!--아이디-->
-            <h3>${error }</h3>
-            <h3>${logout }</h3>
+            <h3 style="color:red;">${error }</h3>
+            <h3 style="color:red;">${logout }</h3>
         <form method="post" action="/login">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div class="int-area"> 
-                <input id="username" type="text" name="username" placeholder="아이디"> 
+                <input id="username" type="text" name="username" placeholder="아이디" value="${result }"> 
                 <label for="username">아이디</label> 
             </div>
             <!--비밀번호-->
@@ -35,7 +35,7 @@
                 </div>
                 <!--로그인 회원가입 버튼-->
                     <input type="submit" value="로그인">  
-                    <input type="submit" value="회원가입" > 
+                    <input type="button" value="회원가입" onclick="location.href='/member/join'" > 
                 </form>
             </section> 
             </body> 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -77,13 +78,14 @@ public class CommonController2 {
 //		}
 //		return authentication.isAuthenticated();
 //	}
-
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/register")
 	public void getregister() {
 
 	}
 
 	// @RequestParam(value="") List<Restaurant_menuVO> menuvo
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@PostMapping("/register")
 	public String postregister(RestaurantVO vo, RedirectAttributes rttr, HttpServletRequest request) {
 		log.info("================================");
@@ -144,9 +146,9 @@ public class CommonController2 {
 			service.registerRestaurantMenu(menuvoList);
 		}
 
-		return "redirect:/main";
+		return "redirect:/";
 	}
-
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/modify")
 	public void getmodify(@RequestParam("cid") Integer cid, Model model) {
 		log.info("cid : " + cid);
@@ -164,7 +166,7 @@ public class CommonController2 {
 		log.info("menu : " + service.getRestaurantMenu(cid));
 
 	}
-
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@PostMapping("/modify")
 	public String postmodify(RestaurantVO vo, HttpServletRequest request) {
 		vo.setCid(Integer.parseInt(request.getParameter("cid")));
@@ -224,7 +226,7 @@ public class CommonController2 {
 			service.registerRestaurantMenu(menuvoList);
 		}
 		
-		return "redirect:/main";
+		return "redirect:/";
 	}
 
 	@GetMapping("/main")
@@ -234,6 +236,7 @@ public class CommonController2 {
 			model.addAttribute("Restaurant" + i, service.getRestaurant(cid[i]));
 		}
 	}
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/delete")
 	public String delete(@RequestParam("cid") Integer cid,RedirectAttributes rttr) {
 		service.removeRestaurant(cid);

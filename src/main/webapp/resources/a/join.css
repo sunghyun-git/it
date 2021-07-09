@@ -109,7 +109,17 @@ input[type=submit]{
     text-align: center;
     margin-top: 20px;
 }
-
+button[type=submit]{
+    background-color: #8aa1a1;
+    border:none;
+    color:white;
+    border-radius: 30px;
+    width:30%;
+    height:50px;
+    font-size: 14pt;
+    text-align: center;
+    margin-top: 20px;
+}
 input[type=reset]{
     background-color: #8aa1a1;
     border:none;
@@ -159,6 +169,7 @@ label {
         height: 10%;
         margin-top: -30px;
     }
+    
     
 .formfield{
     position:relative;

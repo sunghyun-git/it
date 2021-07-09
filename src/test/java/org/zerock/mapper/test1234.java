@@ -41,14 +41,14 @@ public class test1234 {
 	@Test
 	public void testinsertall() {
 
-		Integer[] cid = { 2029456983 };
+		Integer[] cid = { 16086014 };
 
 		for (int i = 0; i < cid.length; i++) {
 			JSONObject jsonObject = conAddr(cid[i].toString());
-			//testInsertRestaurant(cid[i].toString(), jsonObject);
-			// testInsertRestaurant_open(cid[i].toString(), jsonObject);
-			// testInsertRestaurant_off(cid[i].toString(), jsonObject);
-			// testInsertRestaurant_menu(cid[i].toString(), jsonObject);
+			 testInsertRestaurant(cid[i].toString(), jsonObject);
+			 testInsertRestaurant_open(cid[i].toString(), jsonObject);
+			 testInsertRestaurant_off(cid[i].toString(), jsonObject);
+			 testInsertRestaurant_menu(cid[i].toString(), jsonObject);
 			 testinsertRestaurant_review(cid[i].toString(), jsonObject);
 		}
 	}
