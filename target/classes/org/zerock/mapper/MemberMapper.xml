@@ -37,4 +37,8 @@ set pwd=#{pwd}, nickname=#{nickname}, userbirthday=#{userbirthday}, agree=#{agre
 where userid = #{userid}
 </update>
 
+<select id="idCheck" resultType="int">
+select count(*) from food_member where userid = #{userid}
+</select>
+
 </mapper>

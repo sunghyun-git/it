@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.MemberVO;
 import org.zerock.service.MemberService;
@@ -31,16 +34,28 @@ import lombok.extern.log4j.Log4j;
 public class MemberController {
 	private MemberService service;
 	
+	
+	
+	@ResponseBody 
+	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+	public Integer idChk(HttpServletRequest request) throws Exception {
+		
+		int result = service.idCheck(request.getParameter("userid"));
+		log.info("result : "+ result);
+		return result;
+	} 
+	
 	@GetMapping("/join")
 	public void join() {
 		
 	}
 	
 	@PostMapping("/join")
-	public String join(RedirectAttributes rttr,HttpServletRequest request) throws ParseException {
+	public String join(RedirectAttributes rttr,HttpServletRequest request) throws Exception {
 		//service.join(member);
 		MemberVO vo = new MemberVO();
 		vo.setUserid(request.getParameter("userid"));
+		int result = service.idCheck(vo.getUserid());
 		vo.setPwd(request.getParameter("pwd"));
 		vo.setUsername(request.getParameter("username"));
 		if(request.getParameter("nickname") != null) {
@@ -72,9 +87,17 @@ public class MemberController {
 		log.info("member : "+vo);
 		rttr.addFlashAttribute("result", vo.getUserid());
 		
+		try {
+			if(result==1) {
+				return "/member/join";
+			}else if(result==0) {
+				service.join(vo);
+			}
+		} catch(Exception e){
+			throw new RuntimeException();
+		}
 		
-		
-		service.join(vo);
+	
 		return "redirect:/member/login";
 	}
 	@PreAuthorize("isAuthenticated()")
@@ -144,7 +167,7 @@ public class MemberController {
 			vo.setAgree(true);
 		}
 		service.update(vo);
-		return "redirect:/main";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/login")

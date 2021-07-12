@@ -57,4 +57,11 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+	@Override
+	public int idCheck(String userid) {
+		int Count = mapper.idCheck(userid);
+		
+		return Count;
+	}
+	
 }
