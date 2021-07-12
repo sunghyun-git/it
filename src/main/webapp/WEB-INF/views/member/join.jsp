@@ -218,9 +218,9 @@
           <script type="text/javascript">
           function fn_idCheck(){
         	  var userid = $('#userid').val();
-        	  var checkid = /^[a-zA-Z0-9]{6,15}$/;
+        	  var checkid = /^[a-zA-Z0-9]{4,12}$/;
         	  if(!checkid.test(userid)){
-        		  alert("아이디는 영어 숫자 포함 6~15글자입니다.");
+        		  alert("아이디는 영어 숫자 포함 4~12글자입니다.");
         		  document.getElementById('userid').focus();
         	  }
         	  if(checkid.test(userid)){
@@ -265,10 +265,10 @@
         	}
           
           $(document).ready(function(e){
-        	  var checkid = /^[a-zA-Z0-9]{6,15}$/;
+        	  var checkid = /^[a-zA-Z0-9]{4,12}$/;
               $("button[type='submit']").on("click", function(e){
             	  if(!checkid.test($('#userid').val())){
-            		  alert("아이디는 영어 숫자 포함 6~15글자입니다.");
+            		  alert("아이디는 영어 숫자 포함 4~12글자입니다.");
             		  document.getElementById('userid').focus();
             		  return false;
             	  }

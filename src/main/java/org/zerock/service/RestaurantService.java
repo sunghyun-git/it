@@ -2,7 +2,9 @@ package org.zerock.service;
 
 import java.util.List;
 
+
 import org.zerock.domain.Criteria;
+import org.zerock.domain.RestaurantAttachVO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -12,7 +14,8 @@ import org.zerock.domain.Restaurant_reviewVO;
 public interface RestaurantService {
 	
 	public int getSearchCount(Criteria cri);
-	
+	public List<RestaurantAttachVO> getAttachList(Integer cid);
+
 	
 	public void registerRestaurant(RestaurantVO vo);
 	public void registerRestaurantOff(List<Restaurant_offVO> offvo);

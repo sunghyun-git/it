@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.RestaurantAttachVO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
 import org.zerock.domain.Restaurant_openHourVO;
 import org.zerock.domain.Restaurant_reviewVO;
+import org.zerock.mapper.RestaurantAttachMapper;
 import org.zerock.mapper.RestaurantMapper;
 
 import lombok.Setter;
@@ -24,6 +28,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Setter(onMethod_ = { @Autowired })
 	RestaurantMapper mapper;
+	@Setter(onMethod_ = { @Autowired })
+	RestaurantAttachMapper attachMapper;
 	@Override
 	public void updatereviewcount(Integer cid) {
 		mapper.updatereviewcount(cid);
@@ -33,11 +39,24 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public void updateviewscount(Integer cid) {
 		mapper.updateviewscount(cid);
 	}
-	
+	@Transactional
 	@Override
 	public void registerRestaurant(RestaurantVO vo) {
 		// log.info("vo : "+vo);
 		mapper.insertRestaurant(vo);
+		if(vo.getAttachList() == null || vo.getAttachList().size() <= 0) {
+			return;
+		}
+		vo.getAttachList().forEach(attach -> {
+			attach.setCid(vo.getCid());
+			attachMapper.insert(attach);
+		});
+
+	}
+	@Override
+	public List<RestaurantAttachVO> getAttachList(Integer cid) {
+		log.info("get Attach list by bno " + cid);
+		return attachMapper.findByBno(cid);
 	}
 
 	@Override
@@ -99,6 +118,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public boolean modifyRestaurant(RestaurantVO vo) {
 		mapper.updateRestaurant(vo);
+		attachMapper.deleteAll(vo.getCid());
+		mapper.updateRestaurant(vo);
+		if(vo.getAttachList() != null && vo.getAttachList().size() > 0) {
+			vo.getAttachList().forEach(attach -> {
+				attach.setCid(vo.getCid());
+				attachMapper.insert(attach);
+			});
+		}
 		return true;
 	}
 

@@ -1,5 +1,7 @@
 package org.zerock.domain;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,7 @@ public class RestaurantVO {
 	private int reviewcount;
 	private int views;
 	private double rating;
+	private List<RestaurantAttachVO> attachList;
 
 	
 	

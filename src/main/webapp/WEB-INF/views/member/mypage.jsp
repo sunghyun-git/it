@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/resources/a/Mypage.css">
  <script src="/resources/js/jquery-3.6.0.min.js"></script>
 
+
 </head>
 <body>
 <%@ include file="../includes/header2.jsp"%>
@@ -34,7 +35,7 @@
 		<!--이메일 데이터 베이스-->
 	</header>
 	<br>
-	<form method="post" name="logoutform" action="/member/logout">
+	
 	<ul class="list">
 		<li class="item mousect-effect">
 			<div class="left">
@@ -73,31 +74,21 @@
 		</sec:authorize>
 		
 		
-		<li class="item mouse-effect" onclick="javascript:go();">
-			<div class="left">
-				<img src="/resources/img/logout.png" width="24px" height="24px" />
-				<div class="name">logout</div>
-			</div>
-			<div class="right">
-				<img src="/resources/img/icon/right_arrow.svg"  />
-			</div>
-		</li>
+	
 		
 		
 
 	</ul>
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	</form>
-         <script>
+	
 
+<script type="text/javascript">
 function go(){
 	var f = document.logoutform;
 
 
 	f.submit();
 }
-
 </script>
-
 </body>
 </html>

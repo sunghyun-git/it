@@ -55,7 +55,6 @@
     </nav>
     
 
-        
         <!-- 추천게시물 (하단에 swiper 기능 추가함)-->
         <section class="swiper-container">
             <div class="swiper-wrapper">

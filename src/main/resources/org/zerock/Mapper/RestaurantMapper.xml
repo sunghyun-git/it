@@ -5,6 +5,7 @@
 <mapper namespace="org.zerock.mapper.RestaurantMapper">
 
 	
+
 	<select id="searchFood" resultType="org.zerock.domain.RestaurantVO">
 	select * from food_restaurant where address like CONCAT ('%',#{keyword},'%') or catename like CONCAT ('%',#{keyword},'%') or placename like  CONCAT ('%',#{keyword},'%') limit #{pageStart}, #{amount}
 	</select>

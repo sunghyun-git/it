@@ -54,7 +54,7 @@ public class UploadController {
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(UploadForm form, Model model) {
 		log.info("desc=" + form.getDesc());
-		String uploadFolder = "D:\\spring\\upload";
+		String uploadFolder = "D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\";
 		for(MultipartFile multipartFile : form.getUploadFile()) {
 			log.info("-----------------------------------");
 			log.info("Upload file name: " + multipartFile.getOriginalFilename());
@@ -124,7 +124,7 @@ public class UploadController {
 		log.info("upload ajax post.....");
 		
 		List<AttachFileDTO> list = new ArrayList<AttachFileDTO>();
-		String uploadFolder = "D:\\spring\\upload";
+		String uploadFolder = "D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\";
 		
 		String uploadFolderPath = getFolder();
 		// 업로드 폴더 생성
@@ -192,7 +192,7 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
 		log.info("fileName: " + fileName);
-		File file = new File("D:\\spring\\upload\\" + fileName);
+		File file = new File("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\" + fileName);
 		log.info("file: " + file);
 		ResponseEntity<byte[]> result = null;
 		try {
@@ -236,7 +236,7 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 		log.info("download file: " + fileName);
-		Resource resource = new FileSystemResource("D:\\spring\\upload\\" + fileName);
+		Resource resource = new FileSystemResource("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\" + fileName);
 		if(resource.exists() == false) {
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 		}

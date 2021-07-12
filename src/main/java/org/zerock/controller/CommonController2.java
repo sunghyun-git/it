@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.domain.BoardAttachVO;
+import org.zerock.domain.RestaurantAttachVO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -91,12 +96,20 @@ public class CommonController2 {
 		log.info("================================");
 		log.info("register: " + vo);
 		service.registerRestaurant(vo);
-
+		List<RestaurantAttachVO> attach= service.getAttachList(vo.getCid());
+		RestaurantAttachVO asdf=attach.get(0);
+		
+		String ab= asdf.getUploadPath();
+		ab = ab.replace("\\", "/");
+		String a = "/resources/img/"  +ab+ "/"+asdf.getUuid()+"_"+asdf.getFileName();
+		
+		vo.setMainphotourl(a);
+		service.modifyRestaurant(vo);
 		String[] periodName = request.getParameterValues("periodName");
 		String[] timeName = request.getParameterValues("timeName");
 		String[] timeSE = request.getParameterValues("timeSE");
 		String[] dayOfWeek = request.getParameterValues("dayOfWeek");
-
+		
 		List<Restaurant_openHourVO> openvoList = new ArrayList<>();
 		for (int i = 0; i < timeName.length; i++) {
 			Restaurant_openHourVO openvo = new Restaurant_openHourVO();
@@ -146,7 +159,7 @@ public class CommonController2 {
 			service.registerRestaurantMenu(menuvoList);
 		}
 
-		return "redirect:/";
+		return "redirect:/restaurant?cid="+vo.getCid();
 	}
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/modify")
@@ -170,6 +183,13 @@ public class CommonController2 {
 	@PostMapping("/modify")
 	public String postmodify(RestaurantVO vo, HttpServletRequest request) {
 		vo.setCid(Integer.parseInt(request.getParameter("cid")));
+		List<RestaurantAttachVO> attach= service.getAttachList(vo.getCid());
+		RestaurantAttachVO asdf=attach.get(0);
+		
+		String ab= asdf.getUploadPath();
+		ab = ab.replace("\\", "/");
+		String a = "/resources/img/"  +ab+ "/"+asdf.getUuid()+"_"+asdf.getFileName();
+		vo.setMainphotourl(a);
 		service.modifyRestaurant(vo);
 		
 		String[] periodName = request.getParameterValues("periodName");
@@ -226,7 +246,7 @@ public class CommonController2 {
 			service.registerRestaurantMenu(menuvoList);
 		}
 		
-		return "redirect:/";
+		return "redirect:/restaurant?cid="+vo.getCid();
 	}
 
 	@GetMapping("/main")
@@ -239,7 +259,12 @@ public class CommonController2 {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/delete")
 	public String delete(@RequestParam("cid") Integer cid,RedirectAttributes rttr) {
-		service.removeRestaurant(cid);
+		List<RestaurantAttachVO> attachList = service.getAttachList(cid);
+		if(service.removeRestaurant(cid)) {
+			deleteFiles(attachList);
+			
+		}
+		
 		return "redirect:/main";
 	}
 
@@ -372,6 +397,29 @@ public class CommonController2 {
 			e.printStackTrace();
 		}
 		return resultSet;
+	}
+	
+	// 파일 삭제
+	private void deleteFiles(List<RestaurantAttachVO> attachList) {
+	    if(attachList == null || attachList.size() == 0) {
+	      return;
+	    }
+	    
+	    log.info("delete attach files...................");
+	    log.info(attachList);
+	    
+	    attachList.forEach(attach -> {
+	      try {        
+	        Path file  = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
+	        Files.deleteIfExists(file);
+	        if(Files.probeContentType(file).startsWith("image")) {
+	          Path thumbNail = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
+	          Files.delete(thumbNail);
+	        }
+	      }catch(Exception e) {
+	        log.error("delete file error" + e.getMessage());
+	      }//end catch
+	    });//end foreachd
 	}
 
 }
