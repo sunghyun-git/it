@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.zerock.domain.Criteria;
 import org.zerock.domain.RestaurantAttachVO;
+import org.zerock.domain.RestaurantReviewAttachVO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -13,15 +14,16 @@ import org.zerock.domain.Restaurant_reviewVO;
 
 public interface RestaurantService {
 	
+	public Restaurant_reviewVO getreview(Integer rw_no);
 	public int getSearchCount(Criteria cri);
 	public List<RestaurantAttachVO> getAttachList(Integer cid);
-
+	public List<RestaurantReviewAttachVO> getReviewAttachList(Integer rw_no);
 	
 	public void registerRestaurant(RestaurantVO vo);
 	public void registerRestaurantOff(List<Restaurant_offVO> offvo);
 	public void registerRestaurantOpen(List<Restaurant_openHourVO> openvo);
 	public void registerRestaurantMenu(List<Restaurant_menuVO> menuvo);
-	
+	public void registerRestaurantReview(Restaurant_reviewVO reviewvo);
 	
 	public RestaurantVO getRestaurant(Integer cid);
 	public List<Restaurant_openHourVO> getRestaurantOpen(Integer cid);
@@ -33,9 +35,10 @@ public interface RestaurantService {
 	public boolean modifyRestaurantOpen(List<Restaurant_openHourVO> openvo);
 	public boolean modifyRestaurantOff(List<Restaurant_offVO> offvo);
 	public boolean modifyRestaurantMenu(List<Restaurant_menuVO> menuvo);
-	
+	public boolean modifyRestaurantReview(Restaurant_reviewVO reviewvo);
 	
 	public boolean removeRestaurant(Integer cid);
+	public boolean removeReview(Integer rw_no);
 	
 	public List<RestaurantVO>getList();
 	public List<RestaurantVO>topList(String address);	//xml파일에 id가 topList로 설정되어있는 쿼리문을 가져옴
@@ -49,5 +52,6 @@ public interface RestaurantService {
 	
 	public void updatereviewcount(Integer cid);
 	public void updateviewscount(Integer cid);
+	public void updatereviewrating(Integer cid);
 	
 }

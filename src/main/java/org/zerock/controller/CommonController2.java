@@ -9,7 +9,9 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +35,7 @@ import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
 import org.zerock.domain.Restaurant_openHourVO;
+import org.zerock.domain.Restaurant_reviewVO;
 import org.zerock.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -43,6 +46,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class CommonController2 {
 	private RestaurantService service;
+
 //	@GetMapping("/accessError")
 //	public void accessDenied(Authentication auth, Model model) {
 //		log.info("access Denied : " + auth);
@@ -96,20 +100,26 @@ public class CommonController2 {
 		log.info("================================");
 		log.info("register: " + vo);
 		service.registerRestaurant(vo);
-		List<RestaurantAttachVO> attach= service.getAttachList(vo.getCid());
-		RestaurantAttachVO asdf=attach.get(0);
+		log.info("asdfasdf"+service.getAttachList(vo.getCid()));
+		if (service.getAttachList(vo.getCid()).isEmpty()) {
+			
+		} else {
+			List<RestaurantAttachVO> attach = service.getAttachList(vo.getCid());
+			RestaurantAttachVO asdf = attach.get(0);
+
+			String ab = asdf.getUploadPath();
+			ab = ab.replace("\\", "/");
+			String a = "/resources/img/" + ab + "/" + asdf.getUuid() + "_" + asdf.getFileName();
+
+			vo.setMainphotourl(a);
+			service.modifyRestaurant(vo);
+		}
 		
-		String ab= asdf.getUploadPath();
-		ab = ab.replace("\\", "/");
-		String a = "/resources/img/"  +ab+ "/"+asdf.getUuid()+"_"+asdf.getFileName();
-		
-		vo.setMainphotourl(a);
-		service.modifyRestaurant(vo);
 		String[] periodName = request.getParameterValues("periodName");
 		String[] timeName = request.getParameterValues("timeName");
 		String[] timeSE = request.getParameterValues("timeSE");
 		String[] dayOfWeek = request.getParameterValues("dayOfWeek");
-		
+
 		List<Restaurant_openHourVO> openvoList = new ArrayList<>();
 		for (int i = 0; i < timeName.length; i++) {
 			Restaurant_openHourVO openvo = new Restaurant_openHourVO();
@@ -159,13 +169,14 @@ public class CommonController2 {
 			service.registerRestaurantMenu(menuvoList);
 		}
 
-		return "redirect:/restaurant?cid="+vo.getCid();
+		return "redirect:/restaurant?cid=" + vo.getCid();
 	}
+
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/modify")
 	public void getmodify(@RequestParam("cid") Integer cid, Model model) {
 		log.info("cid : " + cid);
-		model.addAttribute("cid",cid);
+		model.addAttribute("cid", cid);
 		model.addAttribute("Restaurant", service.getRestaurant(cid));
 
 		model.addAttribute("open", service.getRestaurantOpen(cid));
@@ -179,18 +190,24 @@ public class CommonController2 {
 		log.info("menu : " + service.getRestaurantMenu(cid));
 
 	}
+
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@PostMapping("/modify")
 	public String postmodify(RestaurantVO vo, HttpServletRequest request) {
 		vo.setCid(Integer.parseInt(request.getParameter("cid")));
-		List<RestaurantAttachVO> attach= service.getAttachList(vo.getCid());
-		RestaurantAttachVO asdf=attach.get(0);
-		
-		String ab= asdf.getUploadPath();
-		ab = ab.replace("\\", "/");
-		String a = "/resources/img/"  +ab+ "/"+asdf.getUuid()+"_"+asdf.getFileName();
-		vo.setMainphotourl(a);
-		service.modifyRestaurant(vo);
+		if (service.getAttachList(vo.getCid()).isEmpty()) {
+			
+		} else {
+			List<RestaurantAttachVO> attach = service.getAttachList(vo.getCid());
+			RestaurantAttachVO asdf = attach.get(0);
+
+			String ab = asdf.getUploadPath();
+			ab = ab.replace("\\", "/");
+			String a = "/resources/img/" + ab + "/" + asdf.getUuid() + "_" + asdf.getFileName();
+
+			vo.setMainphotourl(a);
+			service.modifyRestaurant(vo);
+		}
 		
 		String[] periodName = request.getParameterValues("periodName");
 		String[] timeName = request.getParameterValues("timeName");
@@ -245,8 +262,8 @@ public class CommonController2 {
 			}
 			service.registerRestaurantMenu(menuvoList);
 		}
-		
-		return "redirect:/restaurant?cid="+vo.getCid();
+
+		return "redirect:/restaurant?cid=" + vo.getCid();
 	}
 
 	@GetMapping("/main")
@@ -256,22 +273,23 @@ public class CommonController2 {
 			model.addAttribute("Restaurant" + i, service.getRestaurant(cid[i]));
 		}
 	}
+
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/delete")
-	public String delete(@RequestParam("cid") Integer cid,RedirectAttributes rttr) {
+	public String delete(@RequestParam("cid") Integer cid, RedirectAttributes rttr) {
 		List<RestaurantAttachVO> attachList = service.getAttachList(cid);
-		if(service.removeRestaurant(cid)) {
+		if (service.removeRestaurant(cid)) {
 			deleteFiles(attachList);
-			
+
 		}
-		
+
 		return "redirect:/main";
 	}
 
 	@GetMapping("/restaurant")
-	public void jsonParse(Model model, HttpServletRequest request) {
-		
-		
+	public void jsonParse(String error,Model model, HttpServletRequest request) {
+		model.addAttribute("error",error);
+		SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Integer cid = Integer.parseInt(request.getParameter("cid"));
 		// service.getRestaurant(2030217673);
 		service.updateviewscount(cid);
@@ -284,6 +302,12 @@ public class CommonController2 {
 		model.addAttribute("menu", service.getRestaurantMenu(cid));
 
 		model.addAttribute("review", service.getRestaurantReview(cid));
+		List<Restaurant_reviewVO> reviewVO = service.getRestaurantReview(cid);
+		for (int i = 0; i < reviewVO.size(); i++) {
+			Date A = reviewVO.get(i).getRw_updatedate();
+			model.addAttribute("reviewa", DF.format(A));
+
+		}
 
 //		JSONObject jsonObject = conAddr();	
 //		JSONObject basicInfo = (JSONObject) jsonObject.get("basicInfo");
@@ -398,28 +422,30 @@ public class CommonController2 {
 		}
 		return resultSet;
 	}
-	
+
 	// 파일 삭제
 	private void deleteFiles(List<RestaurantAttachVO> attachList) {
-	    if(attachList == null || attachList.size() == 0) {
-	      return;
-	    }
-	    
-	    log.info("delete attach files...................");
-	    log.info(attachList);
-	    
-	    attachList.forEach(attach -> {
-	      try {        
-	        Path file  = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
-	        Files.deleteIfExists(file);
-	        if(Files.probeContentType(file).startsWith("image")) {
-	          Path thumbNail = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
-	          Files.delete(thumbNail);
-	        }
-	      }catch(Exception e) {
-	        log.error("delete file error" + e.getMessage());
-	      }//end catch
-	    });//end foreachd
+		if (attachList == null || attachList.size() == 0) {
+			return;
+		}
+
+		log.info("delete attach files...................");
+		log.info(attachList);
+
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"
+						+ attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				Files.deleteIfExists(file);
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get("D:\\spring\\swork\\ex1234\\src\\main\\webapp\\resources\\img\\"
+							+ attach.getUploadPath() + "\\s_" + attach.getUuid() + "_" + attach.getFileName());
+					Files.delete(thumbNail);
+				}
+			} catch (Exception e) {
+				log.error("delete file error" + e.getMessage());
+			} // end catch
+		});// end foreachd
 	}
 
 }

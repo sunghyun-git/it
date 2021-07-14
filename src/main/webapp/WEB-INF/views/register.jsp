@@ -10,7 +10,7 @@
 <title>음식점 추가 </title>
 
  <link rel="stylesheet" href="/resources/a/main_view.css" type="text/css">
- <link rel="stylesheet" href="/resources/a/register2.css" type="text/css">
+ <link rel="stylesheet" href="/resources/a/register3.css" type="text/css">
 <script src="/resources/js/jquery-3.6.0.min.js"></script>
 <style>
 

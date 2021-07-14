@@ -1,14 +1,15 @@
 package org.zerock.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zerock.domain.BoardAttachVO;
+
 import org.zerock.domain.Criteria;
 import org.zerock.domain.RestaurantAttachVO;
+import org.zerock.domain.RestaurantReviewAttachVO;
 import org.zerock.domain.RestaurantVO;
 import org.zerock.domain.Restaurant_menuVO;
 import org.zerock.domain.Restaurant_offVO;
@@ -16,6 +17,7 @@ import org.zerock.domain.Restaurant_openHourVO;
 import org.zerock.domain.Restaurant_reviewVO;
 import org.zerock.mapper.RestaurantAttachMapper;
 import org.zerock.mapper.RestaurantMapper;
+import org.zerock.mapper.RestaurantReviewAttachMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -26,10 +28,62 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	
 
+	
+	
 	@Setter(onMethod_ = { @Autowired })
 	RestaurantMapper mapper;
 	@Setter(onMethod_ = { @Autowired })
 	RestaurantAttachMapper attachMapper;
+	@Setter(onMethod_ = { @Autowired })
+	RestaurantReviewAttachMapper reviewattachMapper;
+	@Override
+	public boolean removeReview(Integer rw_no) {
+		reviewattachMapper.deleteAll(rw_no);
+		mapper.deleteRestaurant_review(rw_no);
+		return true;
+	}
+	@Override
+	public Restaurant_reviewVO getreview(Integer rw_no) {
+		return mapper.readReview(rw_no);
+	}
+
+	
+	@Override
+	public void updatereviewrating(Integer cid) {
+		mapper.updaterating(cid);
+		
+	}
+	@Override
+	public boolean modifyRestaurantReview(Restaurant_reviewVO reviewvo) {
+		mapper.updateRestaurant_review(reviewvo);
+		reviewattachMapper.deleteAll(reviewvo.getRw_no());
+		mapper.updateRestaurant_review(reviewvo);
+		if(reviewvo.getAttachList() != null && reviewvo.getAttachList().size() > 0) {
+			reviewvo.getAttachList().forEach(attach -> {
+				attach.setRw_no(reviewvo.getRw_no());
+				reviewattachMapper.insert(attach);
+			});
+		}
+		return true;
+	}
+	@Override
+	public List<RestaurantReviewAttachVO> getReviewAttachList(Integer rw_no) {
+		// TODO Auto-generated method stub
+		return reviewattachMapper.findByBno(rw_no);
+	}
+	@Override
+	public void registerRestaurantReview(Restaurant_reviewVO reviewvo) {
+		mapper.insertRestaurant_review(reviewvo);
+		if(reviewvo.getAttachList() == null || reviewvo.getAttachList().size() <= 0) {
+			return;
+		}
+		reviewvo.getAttachList().forEach(attach -> {
+			attach.setRw_no(reviewvo.getRw_no());
+			reviewattachMapper.insert(attach);
+		});
+		
+	}
+	
 	@Override
 	public void updatereviewcount(Integer cid) {
 		mapper.updatereviewcount(cid);
@@ -156,6 +210,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public boolean removeRestaurant(Integer cid) {
 		mapper.deleteRestaurant(cid);
+		attachMapper.deleteAll(cid);
 		return true;
 	}
 	@Override

@@ -8,16 +8,26 @@
 <head>
 <meta charset="UTF-8">
 <title>${Restaurant.placename }</title>
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="../resources/a/main_view.css" type="text/css">
+<link rel="stylesheet" href="../resources/a/register3.css" type="text/css">
+<script src="../resources/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
+<%@ include file="includes/header2.jsp"%>
 <form method="get" action="/modify">
 	<!-- 가게 정보  -->
-	<input type="hidden" value="${Restaurant.cid }" name="cid">
+	<input type="hidden" name="error" id="error" value="${error}">
+	<input type="hidden" value="${Restaurant.cid }" name="cid" id="cid">
 	<input type="hidden" value="${Restaurant.address} ${Restaurant.placename }" name="placeaddress" id="placeaddress">
+	<c:if test="${Restaurant.mainphotourl !=null}">
 	<img src="${Restaurant.mainphotourl}" width="700" height="580">
+	</c:if>
+	<c:if test="${Restaurant.mainphotourl ==null}">
+	<img src="/resources/img/food1.jpg" width="700" height="580">
+	</c:if>
 	<br> ${Restaurant.placename } (${Restaurant.catename })
 	(${Restaurant.views }) ${Restaurant.rating }
 	<br> ${Restaurant.address}
@@ -33,7 +43,7 @@
 ${Restaurant.phonenum}
 
 </c:if>
-	<div id="map" style="width:350px;height:350px;"></div>
+	<div id="map" style="width:350px;height:350px;" ></div>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddfa64a774c1422fb95b40bd0dc99e12&libraries=services"></script>
 
@@ -140,9 +150,18 @@ geocoder.addressSearch(placeaddress, function(result, status) {
 	<br>
 	<hr>
 	<br>
+	<input type="button" onclick="location.href='/restaurantreview/register?cid=${Restaurant.cid}'" value="리뷰 작성">
+	<br><br><br>
+	
 	<!-- 리뷰 -->
 	<c:if test="${review !=null }">
 		<c:forEach var="review" items="${review }">
+		<input type="hidden" name="userid" value="${review.userid }">
+		<sec:authorize access="isAuthenticated()">
+	  	
+	    
+		
+		</sec:authorize>
 			<table>
 				<tr>
 					<td>${review.rw_writer }<br> <c:choose>
@@ -166,16 +185,24 @@ geocoder.addressSearch(placeaddress, function(result, status) {
 							</c:when>
 
 						</c:choose>
+					
 				</tr>
+				
 				<tr>
 					<td>${review.rw_content }<br> <c:if
 							test="${review.rw_photo !=null }">
 							<td><img src="${review.rw_photo }" width="200"><br>
 						</c:if>
 				</tr>
+				
 				<tr>
-					<td>${review.rw_updatedate }
+				<c:forEach var="reviewa" items="${reviewa }">
+					<td>${reviewa }
+				</c:forEach>
+				<td><input type="button" value="리뷰 수정" onclick="location.href='/restaurantreview/modify?rw=${review.rw_no}&cid=${Restaurant.cid}'">
+				
 				</tr>
+				
 			</table>
 			<br>
 			<br>
@@ -186,6 +213,40 @@ geocoder.addressSearch(placeaddress, function(result, status) {
 	<button type="submit">수정하기</button>
 	</sec:authorize>
 	</form>
-	
+	<script type="text/javascript">
+	function go(){
+		var f = document.logoutform;
+
+
+		f.submit();
+	}
+	 var replyer = null;
+	    <sec:authorize access="isAuthenticated()">
+	  	replyer = '<sec:authentication property="principal.username"/>';
+	    </sec:authorize>
+	    
+	    var error = $('#error').val();
+	    if(error == 'no'){
+	    	alert('작성자만 수정 가능합니다.');
+	    }
+	    
+	    $(document).ready(function(e){
+	    document.onkeydown = fkey;
+	    document.onkeypress = fkey;
+	    document.onkeyup = fkey;
+	     
+	    var wasPressed = false;
+	     
+	    var cid = $('#cid').val();
+	    function fkey(e){
+	        e = e || window.event;
+	        if(wasPressed) return;
+	     
+	        if(e.keyCode == 116){
+	            location.href = "/restaurant?cid="+cid;
+	        }
+	    }
+	    });
+	</script>
 </body>
 </html>

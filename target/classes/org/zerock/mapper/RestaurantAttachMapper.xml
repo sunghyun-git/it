@@ -9,7 +9,7 @@
 </insert>
 
 <delete id="delete">
-	delete from food_restaurant_attach where uuid = #{uuid}
+	delete from food_restaurant_attach where cid = #{cid}
 </delete>
 
 <select id="findByBno" resultType="org.zerock.domain.RestaurantAttachVO">
@@ -20,7 +20,7 @@
 	delete from food_restaurant_attach where cid = #{cid}
 </delete>
 
-<select id="getOldFiles" resultType="org.zerock.domain.BoardAttachVO">
+<select id="getOldFiles" resultType="org.zerock.domain.RestaurantAttachVO">
 	select * from food_restaurant_attach where uploadpath = CURDATE() - INTERVAL 1 DAY
 </select>
 </mapper>

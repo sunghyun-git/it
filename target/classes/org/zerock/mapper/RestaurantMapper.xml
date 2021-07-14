@@ -15,7 +15,9 @@
 		select count(*) from food_restaurant where address like CONCAT ('%',#{keyword},'%') or catename like CONCAT ('%',#{keyword},'%') or placename like  CONCAT ('%',#{keyword},'%')
 	</select>
 	
-	
+	<select id="readReview" resultType="org.zerock.domain.Restaurant_reviewVO">
+	select * from food_restaurant_review where rw_no = #{rw_no}
+	</select>
 	<!-- address 값에 해당하는 주소로 5개의 음식점 정보를 평점 순으로 가져옴 -->
 	<select id="topList" resultType="org.zerock.domain.RestaurantVO">
 		select * from food_restaurant where address like CONCAT ('%',#{address},'%') and  not mainphotourl is null ORDER BY rating desc limit 5 
@@ -73,13 +75,16 @@
 	<!-- DB에 음식점 정보 저장 -->
 
 	<!-- 리뷰 저장 -->
-	<insert id="insertRestaurant_review">
+	<insert id="insertRestaurant_review" parameterType="org.zerock.domain.RestaurantVO" useGeneratedKeys="true" keyColumn="rw_no">
 		insert into food_restaurant_review
 		(cid, rw_writer, rw_content,
-		rw_photo, rw_rating)
+		rw_photo, rw_rating, userid)
 		values (#{cid},
 		#{rw_writer}, #{rw_content},
-		#{rw_photo}, #{rw_rating})
+		#{rw_photo}, #{rw_rating}, #{userid})
+		<selectKey resultType="int" keyProperty="rw_no" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	
 	</insert>
 
@@ -206,7 +211,12 @@
 	<update id="updatereviewcount">
 	update food_restaurant set reviewcount = reviewcount + 1 where cid = #{cid}
 </update>
+
 	<update id="updateviewscount">
 	update food_restaurant set views= views + 1 where cid = #{cid}
+</update>
+
+<update id="updaterating">
+ update food_restaurant  set rating =(select avg(rw_rating) from food_restaurant_review where cid = food_restaurant.cid);
 </update>
 </mapper>
